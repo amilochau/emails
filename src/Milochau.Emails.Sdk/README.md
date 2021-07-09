@@ -46,7 +46,7 @@ You should configure these settings values - usually retrieved from configuratio
 
 | Key | Description | Default value |
 | --- | ----------- | ------------- |
-| `ServiceBusConnectionString` | Connection string for the Service Bus used by the Emails microservice, to send emails asynchronously; it could be `Endpoint=sb://spvie-emails.servicebus.windows.net/;SharedAccessKeyName=SendListen;SharedAccessKey=XXX` by example | None |
+| `ServiceBusConnectionString` | Connection string for the Service Bus used by the Emails microservice, to send emails asynchronously; it could be `Endpoint=sb://xxx.servicebus.windows.net/;SharedAccessKeyName=SendListen;SharedAccessKey=XXX` by example | None |
 | `ServiceBusQueueName` | Queue name for the Service Bus used by the Emails microservice; it could be `emails` by example | None |
 
 ## Usage
