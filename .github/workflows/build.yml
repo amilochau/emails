@@ -1,0 +1,38 @@
+name: Build
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+  workflow_dispatch:
+
+env:
+  PROJECTS_BUILD: '**/*.csproj'
+  PROJECTS_TESTS: '**/*.UnitTests/*.csproj'
+  PROJECTS_APP: '**/Milochau.Emails.csproj'
+  PROJECTS_SDK: '**/Milochau.Emails.Sdk.csproj'
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+      - name: Restore dependencies
+        run: dotnet restore ${{ env.PROJECTS_BUILD }}
+      - name: Build application
+        run: dotnet build ${{ env.PROJECTS_BUILD }} --configuration Release --no-restore
+      - name: Test
+        run: dotnet test ${{ env.PROJECTS_TESTS }} --configuration Release --no-restore --no-build
+      - name: Publish application
+        run: dotnet publish ${{ env.PROJECTS_APP }} --configuration Release --no-restore --no-build
+      - name: Publish SDK
+        run: dotnet pack ${{ env.PROJECTS_SDK }} --configuration Release --no-restore --no-build
