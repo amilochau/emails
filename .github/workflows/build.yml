@@ -10,10 +10,10 @@ on:
   workflow_dispatch:
 
 env:
-  PROJECTS_BUILD: '**/*.csproj'
-  PROJECTS_TESTS: '**/*.UnitTests/*.csproj'
-  PROJECTS_APP: '**/Milochau.Emails.csproj'
-  PROJECTS_SDK: '**/Milochau.Emails.Sdk.csproj'
+  PROJECTS_BUILD: './src'
+  PROJECTS_TESTS: './src'
+  PROJECTS_APP: './src/Milochau.Emails/Milochau.Emails.csproj'
+  PROJECTS_SDK: './src/Milochau.Emails.Sdk/Milochau.Emails.Sdk.csproj'
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
 
