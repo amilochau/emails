@@ -7,13 +7,10 @@ on:
   pull_request:
     branches:
     - main
-  workflow_dispatch:
 
 env:
   PROJECTS_BUILD: './src/Milochau.Emails.sln'
   PROJECTS_TESTS: './src/Milochau.Emails.sln'
-  PROJECTS_APP: './src/Milochau.Emails.App.sln'
-  PROJECTS_SDK: './src/Milochau.Emails.Sdk.sln'
   DOTNET_VERSION: 5.0.x
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
@@ -27,13 +24,8 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
-      - name: Restore dependencies
-        run: dotnet restore ${{ env.PROJECTS_BUILD }}
-      - name: Build application
-        run: dotnet build ${{ env.PROJECTS_BUILD }} --configuration Release --no-restore
-      - name: Test
-        run: dotnet test ${{ env.PROJECTS_TESTS }} --configuration Release --no-restore --no-build
-      - name: Publish application
-        run: dotnet publish ${{ env.PROJECTS_APP }} --configuration Release --no-restore --no-build
-      - name: Pack SDK
-        run: dotnet pack ${{ env.PROJECTS_SDK }} --configuration Release --no-restore --no-build
+      - name: Build and test projects
+        uses: amilochau/github-actions/build/netcore@v1
+        with:
+          projectsToBuild: ${{ env.PROJECTS_BUILD }}
+          projectsToTest: ${{ env.PROJECTS_TESTS }}
