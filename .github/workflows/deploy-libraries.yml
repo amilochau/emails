@@ -24,8 +24,6 @@ jobs:
           source-url: ${{ env.NUGET_URL }}
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Use GitHub Packages
-        run: dotnet nuget add source --username amilochau --password ${{ secrets.ACTIONS_PAT }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/amilochau/index.json"
       - name: Deploy libraries
         uses: amilochau/github-actions/release/nuget@v1
         with:
