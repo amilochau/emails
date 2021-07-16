@@ -23,7 +23,7 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
           source-url: ${{ env.NUGET_URL }}
         env:
-          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NUGET_AUTH_TOKEN: ${{ secrets.ACTIONS_PAT }}
       - name: Deploy libraries
         uses: amilochau/github-actions/release/nuget@v1
         with:
