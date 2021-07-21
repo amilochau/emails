@@ -6,20 +6,20 @@ on:
 env:
   PROJECTS_BUILD: './src/Milochau.Emails.Sdk.sln'
   PROJECTS_APPLICATION: './src/Milochau.Emails.App.sln'
-  INFRA_TEMPLATE_PATH: '**/functions/template.bicep'
+  INFRA_TEMPLATE_PATH: './functions/template.bicep'
   INFRA_PARAMETERS_PATH: './.github/infrastructure/deploy-app.dev.json'
-  INFRA_RG_NAME: 'mil-rg-shd'
+  INFRA_RG_NAME: 'mil-rg-emails-dev'
   INFRA_RG_LOCATION: 'westeurope'
   DOTNET_VERSION: 5.0.x
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
 
 jobs:
-  deploy:
-    name: Deploy application
+  deploy_infra:
+    name: Deploy infrastructure
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2 # For parameters file
         with:
           path: emails
       - uses: actions/checkout@v2 # For template file
@@ -28,10 +28,6 @@ jobs:
           ref: v1.0.0-beta.1
           path: templates
           token: ${{ secrets.PAT }}
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
       - name: Login on Azure
         uses: azure/login@v1
         with:
@@ -42,3 +38,13 @@ jobs:
           inlineScript: |
             az group create --name ${{ env.INFRA_RG_NAME }} --location ${{ env.INFRA_RG_LOCATION }}
             az deployment group create --resource-group ${{ env.INFRA_RG_NAME }} --template-file ${{ env.INFRA_TEMPLATE_PATH }} --parameters ${{ env.INFRA_PARAMETERS_PATH }} --rollback-on-error
+  #deploy_app:
+  #  name: Deploy application
+  #  needs: deploy_infra
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - uses: actions/checkout@v2
+  #    - name: Setup .NET Core
+  #      uses: actions/setup-dotnet@v1
+  #      with:
+  #        dotnet-version: ${{ env.DOTNET_VERSION }}
