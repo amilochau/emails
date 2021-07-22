@@ -22,8 +22,8 @@ Please follow the development good practices, then follow the integration proces
 
 These settings need to be defined; default value for local development are fetched from configuration providers:
 
-- `Emails:AuthorizedRecipientHosts`
 - **`SendGrid:Key`**
+- `Emails:AuthorizedRecipientHosts`
 - `Storage:DefaultConnectionString` (if you need to send attachments with your emails)
 
 These settings can not be defined from Azure App Configuration / Azure Key Vault, and should be defined in `local.settings.json` **and** in hosting configuration as environment variables:
