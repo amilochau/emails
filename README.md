@@ -29,9 +29,8 @@ These settings need to be defined; default value for local development are fetch
 These settings can not be defined from Azure App Configuration / Azure Key Vault, and should be defined in `local.settings.json` **and** in hosting configuration as environment variables:
 
 - **`ASPNETCORE_APPLICATION`**
-- **`ASPNETCORE_HOST`**
 - **`ASPNETCORE_ENVIRONMENT`**
+- **`ASPNETCORE_HOST`**
 - **`ASPNETCORE_KEYVAULT_VAULT`**
 - **`ASPNETCORE_APPCONFIG_ENDPOINT`**
-- **`ServiceBusConnectionString`**
-- **`ServiceBusQueueName`**
+- **`ServiceBusEndpoint`**
