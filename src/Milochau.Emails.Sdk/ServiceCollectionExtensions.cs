@@ -4,6 +4,8 @@ using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using Milochau.Emails.Sdk.Helpers;
+using Microsoft.Extensions.Logging;
+using Microsoft.Azure.ServiceBus.Primitives;
 
 namespace Milochau.Emails.Sdk
 {
@@ -11,6 +13,7 @@ namespace Milochau.Emails.Sdk
     public static class ServiceCollectionExtensions
     {
         private const string serviceBusEndpointName = "Emails microservice (Service Bus)";
+        private const string serviceBusQueueNameEmails = "emails";
 
         /// <summary>Register emails clients, to be accessed from dependency injection</summary>
         /// <param name="services">Service collection</param>
@@ -24,26 +27,20 @@ namespace Milochau.Emails.Sdk
             services.AddScoped<IEmailsValidationHelper, EmailsValidationHelper>();
 
             // Add services for ServiceBus communication
-            if (!string.IsNullOrEmpty(settingsValue.ServiceBusConnectionString) && !string.IsNullOrEmpty(settingsValue.ServiceBusQueueName))
+            if (!string.IsNullOrEmpty(settingsValue.ServiceBusEndpoint) && !string.IsNullOrEmpty(serviceBusQueueNameEmails))
             {
-                services.AddScoped<IEmailsClient, EmailsServiceBusClient>();
-                services.AddScoped<IQueueClient>(serviceProvider => new QueueClient(settingsValue.ServiceBusConnectionString, settingsValue.ServiceBusQueueName));
-            }
+                var tokenProvider = TokenProvider.CreateManagedIdentityTokenProvider();
 
-            // Add health checks
-            services.AddHealthChecks().AddServiceHealthChecks(settingsValue);
+                services.AddSingleton<IEmailsClient>(serviceProvider =>
+                {
+                    var queueClient = new QueueClient(settingsValue.ServiceBusEndpoint, serviceBusQueueNameEmails, tokenProvider);
+                    var emailsValidationHelper = serviceProvider.GetRequiredService<IEmailsValidationHelper>();
+                    var logger = serviceProvider.GetRequiredService<ILogger<EmailsServiceBusClient>>();
+                    return new EmailsServiceBusClient(queueClient, emailsValidationHelper, logger);
+                });
+            }
 
             return services;
-        }
-
-        /// <summary>Add emails microservice to the health checks collection</summary>
-        internal static IHealthChecksBuilder AddServiceHealthChecks(this IHealthChecksBuilder builder, EmailsServiceSettings settingsValue)
-        {
-            if (!string.IsNullOrEmpty(settingsValue.ServiceBusConnectionString) && !string.IsNullOrEmpty(settingsValue.ServiceBusQueueName))
-            {
-                builder.AddAzureServiceBusQueue(settingsValue.ServiceBusConnectionString, settingsValue.ServiceBusQueueName, serviceBusEndpointName);
-            }
-            return builder;
         }
     }
 }

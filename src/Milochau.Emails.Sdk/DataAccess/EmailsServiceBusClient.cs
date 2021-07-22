@@ -38,7 +38,7 @@ namespace Milochau.Emails.Sdk.DataAccess
             {
                 var aggregatedErrors = errors.Aggregate((a, b) => a + Environment.NewLine + b);
                 logger.LogWarning("Email has not been sent, due do validation problems." + Environment.NewLine + aggregatedErrors);
-                throw new ArgumentException(nameof(email), aggregatedErrors);
+                throw new ArgumentException(aggregatedErrors, nameof(email));
             }
 
             var message = new Message
