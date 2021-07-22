@@ -3,6 +3,8 @@ name: Deploy application (DEV)
 on:
   workflow_dispatch:
 
+concurrency: deploy_app_dev
+
 env:
   PROJECTS_BUILD: './src/Milochau.Emails.App.sln'
   PROJECTS_APPLICATION: './src/Milochau.Emails.App.sln'
