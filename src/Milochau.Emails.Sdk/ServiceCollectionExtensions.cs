@@ -24,7 +24,7 @@ namespace Milochau.Emails.Sdk
             settings.Invoke(settingsValue);
 
             // Add helpers
-            services.AddScoped<IEmailsValidationHelper, EmailsValidationHelper>();
+            services.AddSingleton<IEmailsValidationHelper, EmailsValidationHelper>();
 
             // Add services for ServiceBus communication
             if (!string.IsNullOrEmpty(settingsValue.ServiceBusEndpoint) && !string.IsNullOrEmpty(serviceBusQueueNameEmails))
