@@ -42,7 +42,7 @@ namespace Milochau.Emails.Sdk.UnitTests
             // Act
             serviceCollection.AddEmailsClients(settings =>
             {
-                settings.ServiceBusEndpoint = "sb://xxx.servicebus.windows.net/";
+                settings.ServiceBusNamespace = "xxx.servicebus.windows.net";
             });
 
             // Assert

@@ -3,8 +3,8 @@
     /// <summary>Emails service settings</summary>
     public class EmailsServiceSettings
     {
-        /// <summary>Endpoint to the Service bus used by the Emails microservice</summary>
-        /// <remarks>Should be formatted as: sb://xxx.servicebus.windows.net/</remarks>
-        public string ServiceBusEndpoint { get; set; }
+        /// <summary>Namespage of the Service bus used by the Emails microservice</summary>
+        /// <remarks>Should be formatted as: xxx.servicebus.windows.net</remarks>
+        public string ServiceBusNamespace { get; set; }
     }
 }
