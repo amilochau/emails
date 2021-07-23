@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Azure.Identity;
 using Milochau.Core.Abstractions;
 using Azure.Messaging.ServiceBus;
+using Microsoft.Extensions.Options;
 
 namespace Milochau.Emails.Sdk
 {
@@ -29,11 +30,11 @@ namespace Milochau.Emails.Sdk
             {
                 services.AddSingleton<IEmailsClient>(serviceProvider =>
                 {
-                    var hostOptions = serviceProvider.GetService<CoreHostOptions>();
+                    var hostOptions = serviceProvider.GetService<IOptions<CoreHostOptions>>();
                     var emailsValidationHelper = serviceProvider.GetRequiredService<IEmailsValidationHelper>();
                     var logger = serviceProvider.GetRequiredService<ILogger<EmailsServiceBusClient>>();
 
-                    var credential = new DefaultAzureCredential(hostOptions?.Credential);
+                    var credential = new DefaultAzureCredential(hostOptions?.Value.Credential);
                     var serviceBusClient = new ServiceBusClient(settingsValue.ServiceBusNamespace, credential);
 
                     return new EmailsServiceBusClient(serviceBusClient, emailsValidationHelper, logger);
