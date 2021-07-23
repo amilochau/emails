@@ -33,4 +33,4 @@ These settings can not be defined from Azure App Configuration / Azure Key Vault
 - **`ASPNETCORE_HOST`**
 - **`ASPNETCORE_KEYVAULT_VAULT`**
 - **`ASPNETCORE_APPCONFIG_ENDPOINT`**
-- **`ServiceBusEndpoint`**
+- **`ServiceBusNamespace`**

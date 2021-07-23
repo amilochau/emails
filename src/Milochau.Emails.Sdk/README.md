@@ -46,7 +46,7 @@ You should configure these settings values - usually retrieved from configuratio
 
 | Key | Description | Default value |
 | --- | ----------- | ------------- |
-| `ServiceBusEndpoint` | Endpoint for the Service Bus used by the Emails microservice, to send emails asynchronously; it could be `sb://xxx.servicebus.windows.net/` by example | None |
+| `ServiceBusNamespace` | Namespace of the Service Bus used by the Emails microservice, to send emails; it could be `xxx.servicebus.windows.net` by example | None |
 
 Clients need the `Azure Service Bus Data Sender` RBAC role to send messages through Azure Service Bus queues; see [here](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-managed-service-identity) for more details.
 

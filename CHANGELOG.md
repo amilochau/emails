@@ -6,5 +6,5 @@
 
 ## Breaking changes
 
-- SDK now uses Managed Identity to connect to Azure Service Bus. Clients should provide a `ServiceBusEndpoint`, instead of `ServiceBusConnectionString`
+- SDK now uses Managed Identity to connect to Azure Service Bus. Clients should provide a `ServiceBusNamespace`, instead of `ServiceBusConnectionString`
 - Emails service now uses a fixed Service Bus queue name: `emails` 
