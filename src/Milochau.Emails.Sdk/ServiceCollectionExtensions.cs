@@ -14,6 +14,8 @@ namespace Milochau.Emails.Sdk
     /// <summary>Extensions for <see cref="IServiceCollection"/></summary>
     public static class ServiceCollectionExtensions
     {
+        private const string serviceBusQueueNameEmails = "emails";
+
         /// <summary>Register emails clients, to be accessed from dependency injection</summary>
         /// <param name="services">Service collection</param>
         /// <param name="settings">Settings</param>
@@ -36,8 +38,9 @@ namespace Milochau.Emails.Sdk
 
                     var credential = new DefaultAzureCredential(hostOptions?.Value.Credential);
                     var serviceBusClient = new ServiceBusClient(settingsValue.ServiceBusNamespace, credential);
+                    var serviceBusSender = serviceBusClient.CreateSender(serviceBusQueueNameEmails);
 
-                    return new EmailsServiceBusClient(serviceBusClient, emailsValidationHelper, logger);
+                    return new EmailsServiceBusClient(serviceBusSender, emailsValidationHelper, logger);
                 });
             }
 

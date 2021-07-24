@@ -13,7 +13,6 @@ namespace Milochau.Emails.Sdk.UnitTests.DataAccess
     [TestClass]
     public class EmailsServiceBusClientTests
     {
-        private Mock<ServiceBusClient> serviceBusClient;
         private Mock<ServiceBusSender> serviceBusSender;
         private Mock<IEmailsValidationHelper> emailsValidationHelper;
         private Mock<ILogger<EmailsServiceBusClient>> logger;
@@ -23,14 +22,11 @@ namespace Milochau.Emails.Sdk.UnitTests.DataAccess
         [TestInitialize]
         public void Initialize()
         {
-            serviceBusClient = new Mock<ServiceBusClient>();
             serviceBusSender = new Mock<ServiceBusSender>();
             emailsValidationHelper = new Mock<IEmailsValidationHelper>();
             logger = new Mock<ILogger<EmailsServiceBusClient>>();
 
-            serviceBusClient.Setup(x => x.CreateSender("emails")).Returns(serviceBusSender.Object);
-
-            emailsServiceBusClient = new EmailsServiceBusClient(serviceBusClient.Object, emailsValidationHelper.Object, logger.Object);
+            emailsServiceBusClient = new EmailsServiceBusClient(serviceBusSender.Object, emailsValidationHelper.Object, logger.Object);
         }
 
         [TestMethod]

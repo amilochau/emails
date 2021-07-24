@@ -13,18 +13,16 @@ namespace Milochau.Emails.Sdk.DataAccess
     /// <summary>Emails client, via Service Bus</summary>
     public class EmailsServiceBusClient : IEmailsClient
     {
-        private readonly ServiceBusClient serviceBusClient;
+        private readonly ServiceBusSender serviceBusSender;
         private readonly IEmailsValidationHelper emailsValidationHelper;
         private readonly ILogger<EmailsServiceBusClient> logger;
 
-        private const string serviceBusQueueNameEmails = "emails";
-
         /// <summary>Constructor</summary>
-        public EmailsServiceBusClient(ServiceBusClient serviceBusClient,
+        public EmailsServiceBusClient(ServiceBusSender serviceBusSender,
             IEmailsValidationHelper emailsValidationHelper,
             ILogger<EmailsServiceBusClient> logger)
         {
-            this.serviceBusClient = serviceBusClient;
+            this.serviceBusSender = serviceBusSender;
             this.emailsValidationHelper = emailsValidationHelper;
             this.logger = logger;
         }
@@ -42,11 +40,9 @@ namespace Milochau.Emails.Sdk.DataAccess
                 throw new ArgumentException(aggregatedErrors, nameof(email));
             }
 
-            var sender = serviceBusClient.CreateSender(serviceBusQueueNameEmails);
-
             var message = new ServiceBusMessage(JsonSerializer.Serialize(email));
 
-            await sender.SendMessageAsync(message).ConfigureAwait(false);
+            await serviceBusSender.SendMessageAsync(message).ConfigureAwait(false);
         }
     }
 }
