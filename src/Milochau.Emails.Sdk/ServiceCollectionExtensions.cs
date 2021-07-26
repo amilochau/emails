@@ -27,7 +27,16 @@ namespace Milochau.Emails.Sdk
             // Add helpers
             services.AddSingleton<IEmailsValidationHelper, EmailsValidationHelper>();
 
-            // Add services for ServiceBus communication
+            // Add services for Azure Storage Account
+            if (!string.IsNullOrEmpty(settingsValue.StorageAccountName))
+            {
+                services.AddSingleton<IAttachmentsClient>(serviceProvider =>
+                {
+                    return new AttachmentsStorageClient();
+                });
+            }
+
+            // Add services for Azure Service Bus
             if (!string.IsNullOrEmpty(settingsValue.ServiceBusNamespace))
             {
                 services.AddSingleton<IEmailsClient>(serviceProvider =>

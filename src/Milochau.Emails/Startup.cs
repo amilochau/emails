@@ -38,11 +38,6 @@ namespace Milochau.Emails
                 {
                     configuration.Bind("SendGrid", settings);
                 });
-            services.AddOptions<StorageOptions>()
-                .Configure<IConfiguration>((settings, configuration) =>
-                {
-                    configuration.Bind("Storage", settings);
-                });
         }
 
         private void RegisterServices(IServiceCollection services)
