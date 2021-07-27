@@ -28,11 +28,14 @@ namespace Milochau.Emails.Sdk
             services.AddSingleton<IEmailsValidationHelper, EmailsValidationHelper>();
 
             // Add services for Azure Storage Account
-            if (!string.IsNullOrEmpty(settingsValue.StorageAccountName))
+            if (settingsValue.StorageAccountUri != null)
             {
                 services.AddSingleton<IAttachmentsClient>(serviceProvider =>
                 {
-                    return new AttachmentsStorageClient();
+                    var hostOptions = serviceProvider.GetService<IOptions<CoreHostOptions>>();
+                    var logger = serviceProvider.GetRequiredService<ILogger<AttachmentsStorageClient>>();
+
+                    return new AttachmentsStorageClient(hostOptions, settingsValue, logger);
                 });
             }
 
