@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Milochau.Emails.DataAccess
 {
-    public class EmailsSendGridClient : IEmailsDataAccess
+    internal class EmailsSendGridClient : IEmailsDataAccess
     {
         private readonly ISendGridClient sendGridClient;
         private readonly IStorageDataAccess storageDataAccess;

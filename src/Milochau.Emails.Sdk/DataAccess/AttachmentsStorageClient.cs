@@ -40,6 +40,7 @@ namespace Milochau.Emails.Sdk.DataAccess
             var blobClient = blobContainerClient.GetBlobClient(fileName);
 
             await blobClient.UploadAsync(attachment.Content, overwrite: false, cancellationToken).ConfigureAwait(false);
+            logger.LogDebug("Uploaded an attachment into the Emails Storage Account");
 
             return blobClient.Uri;
         }
