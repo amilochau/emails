@@ -38,7 +38,8 @@
           "containers": [
             "default"
           ],
-          "readOnly": true
+          "readOnly": true,
+          "daysBeforeDeletion": 30
         }
       ]
     }
