@@ -3,6 +3,7 @@
     "Development": {
       "commandName": "Project",
       "environmentVariables": {
+        "ASPNETCORE_ORGANIZATION": "mil",
         "ASPNETCORE_APPLICATION": "emails",
         "ASPNETCORE_HOST": "local",
         "ASPNETCORE_ENVIRONMENT": "Development",
@@ -13,6 +14,7 @@
     "Production": {
       "commandName": "Project",
       "environmentVariables": {
+        "ASPNETCORE_ORGANIZATION": "mil",
         "ASPNETCORE_APPLICATION": "emails",
         "ASPNETCORE_HOST": "local",
         "ASPNETCORE_ENVIRONMENT": "Production",
