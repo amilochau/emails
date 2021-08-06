@@ -10,7 +10,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.17" />
     <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="3.1.17" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.13" />
-    <PackageReference Include="Milochau.Core.Functions" Version="8.0.0" />
+    <PackageReference Include="Milochau.Core.Functions" Version="9.0.1" />
     <PackageReference Include="Sendgrid" Version="9.24.1" />
   </ItemGroup>
   <ItemGroup>

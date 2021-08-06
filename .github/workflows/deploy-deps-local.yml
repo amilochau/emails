@@ -7,8 +7,8 @@ concurrency: deploy_deps_loc
 
 env:
   INFRA_TEMPLATE_PATH: '**/functions/template.bicep'
-  INFRA_PARAMETERS_PATH: '**/scripts/infrastructure/deploy-app.loc.json'
-  INFRA_RG_NAME: 'mil-rg-emails-loc'
+  INFRA_PARAMETERS_PATH: '**/scripts/infrastructure/deploy-app.local.json'
+  INFRA_RG_NAME: 'mil-rg-emails-local'
   INFRA_RG_LOCATION: 'westeurope'
 
 jobs:
