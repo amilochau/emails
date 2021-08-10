@@ -74,4 +74,4 @@ jobs:
           package: './build'
       - name: Check health
         shell: bash
-        run: curl ${{ env.INFRA_HEALTH }} --show-error --silent --fail --max-time 10 --retry 10 --retry-all-errors --retry-delay 10 --retry-max-time 120
+        run: curl ${{ env.INFRA_HEALTH }} --show-error --silent --fail --max-time 10 --retry 10 --retry-delay 10 --retry-max-time 120
