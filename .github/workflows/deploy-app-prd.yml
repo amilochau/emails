@@ -73,5 +73,5 @@ jobs:
           app-name: ${{ env.INFRA_APP_NAME }}
           package: './build'
       - name: Check health
-        shell: bash
-        run: curl ${{ env.INFRA_HEALTH }} --show-error --silent --fail --max-time 10 --retry 10 --retry-delay 10 --retry-max-time 120
+        shell: pwsh
+        run: Invoke-WebRequest ${{ env.INFRA_HEALTH }} -TimeoutSec 120 -MaximumRetryCount 12 -RetryIntervalSec 10
