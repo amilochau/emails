@@ -34,3 +34,4 @@ jobs:
         with:
           projectsToBuild: ${{ env.PROJECTS_BUILD }}
           projectsToTest: ${{ env.PROJECTS_TESTS }}
+          verbosity: 'detailed'
