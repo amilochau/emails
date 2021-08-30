@@ -72,10 +72,14 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Deploy Azure Functions application
-        uses: Azure/functions-action@v1
-        with:
-          app-name: ${{ env.INFRA_APP_NAME }}
-          package: './build'
+        shell: bash
+        run: func azure functionapp publish ${{ env.INFRA_APP_NAME }}
+        working-directory: './build'
+      # - name: Deploy Azure Functions application
+      #   uses: Azure/functions-action@v1
+      #   with:
+      #     app-name: ${{ env.INFRA_APP_NAME }}
+      #     package: './build'
       - name: Check health
         shell: pwsh
         run: Invoke-WebRequest ${{ env.INFRA_HEALTH }} -TimeoutSec 120 -MaximumRetryCount 12 -RetryIntervalSec 10
