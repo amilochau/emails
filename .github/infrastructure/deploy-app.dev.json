@@ -17,7 +17,7 @@
     "monitoring": {
       "value": {
         "enableApplicationInsights": true,
-        "disableLocalAuth": true,
+        "disableLocalAuth": false,
         "dailyCap": "0.1",
         "workspaceName": "mil-monitoring-dev-ws",
         "workspaceResourceGroup": "mil-monitoring-dev-rg"
