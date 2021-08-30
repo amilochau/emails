@@ -10,11 +10,11 @@ env:
   PROJECTS_APPLICATION: './src/Milochau.Emails.App.sln'
   INFRA_TEMPLATE_PATH: '**/functions/template.bicep'
   INFRA_PARAMETERS_PATH: '**/.github/infrastructure/deploy-app.prd.json'
-  INFRA_RG_NAME: 'mil-rg-emails-prd'
+  INFRA_RG_NAME: 'mil-emails-prd-rg'
   INFRA_RG_LOCATION: 'westeurope'
-  INFRA_APP_NAME: 'mil-fn-emails-prd'
-  INFRA_HEALTH: 'https://mil-fn-emails-prd.azurewebsites.net/api/health/light'
-  DOTNET_VERSION: 3.1.x
+  INFRA_APP_NAME: 'mil-emails-prd-fn'
+  INFRA_HEALTH: 'https://mil-emails-prd-fn.azurewebsites.net/api/health/light'
+  DOTNET_VERSION: 5.0.x
   DOTNET_NOLOGO: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
 
@@ -29,7 +29,7 @@ jobs:
       - uses: actions/checkout@v2 # For template file
         with:
           repository: amilochau/azure-templates
-          ref: v2
+          ref: v3
           path: templates
           token: ${{ secrets.PAT }}
       - name: Login on Azure
