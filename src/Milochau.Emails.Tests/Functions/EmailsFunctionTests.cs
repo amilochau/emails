@@ -1,6 +1,7 @@
 ﻿using Milochau.Emails.Functions;
 using Milochau.Emails.Sdk.Models;
 using Milochau.Emails.Services;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;

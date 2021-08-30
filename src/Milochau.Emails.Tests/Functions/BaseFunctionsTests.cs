@@ -1,7 +1,9 @@
 ﻿using Azure.Core.Serialization;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Milochau.Emails.Functions;
 using Moq;
 using System.Text.Json;
 
@@ -21,7 +23,11 @@ namespace Milochau.Emails.Tests.Functions
                 Serializer = new JsonObjectSerializer(jsonSerializerOptions)
             });
 
+            var logger = new Mock<ILogger<EmailsFunctions>>();
+
             serviceCollection.AddSingleton(workerOptions.Object);
+            serviceCollection.AddSingleton(logger.Object);
+
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
             var context = new Mock<FunctionContext>();
