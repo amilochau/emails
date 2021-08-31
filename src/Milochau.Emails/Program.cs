@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Milochau.Core.Functions;
-using Milochau.Core.Functions.Infrastructure.Hosting;
 using Milochau.Core.Infrastructure.Hosting;
 
 namespace Milochau.Emails
