@@ -26,6 +26,10 @@ namespace Milochau.Emails
                         .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: false)
                         .AddJsonFile($"appsettings.{hostName}.json", optional: true, reloadOnChange: false);
                 })
+                .ConfigureAppConfiguration((webHostBuilderContext, configurationBuilder) =>
+                {
+                    ConfigurationRegistration.AddApplicationConfiguration(webHostBuilderContext.Configuration, configurationBuilder);
+                })
                 .ConfigureServices((hostContext, services) =>
                 {
                     var startup = CoreFunctionsStartup.Create<Startup>(hostContext.Configuration);
