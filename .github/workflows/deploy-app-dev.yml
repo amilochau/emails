@@ -8,6 +8,7 @@ concurrency: deploy_app_dev
 env:
   PROJECTS_BUILD: './src/Milochau.Emails.App.sln'
   PROJECTS_APPLICATION: './src/Milochau.Emails.App.sln'
+  PROJECTS_PUBLISH: './src/Milochau.Emails'
   INFRA_TEMPLATE_PATH: '**/functions/template.bicep'
   INFRA_PARAMETERS_PATH: '**/.github/infrastructure/deploy-app.dev.json'
   INFRA_RG_NAME: 'mil-emails-dev-rg'
@@ -80,8 +81,8 @@ jobs:
           sudo apt-get install azure-functions-core-tools-3
       - name: Deploy Azure Functions application
         shell: bash
-        run: func azure functionapp publish ${{ env.INFRA_APP_NAME }}
-        working-directory: './build'
+        run: func azure functionapp publish ${{ env.INFRA_APP_NAME }} --no-build
+        working-directory: ${{ env.PROJECTS_PUBLISH }}
       #- name: Deploy Azure Functions application
       #  uses: Azure/functions-action@v1
       #  with:
