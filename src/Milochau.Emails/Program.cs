@@ -6,13 +6,13 @@ namespace Milochau.Emails
 {
     public static class Program
     {
-        public static void Main()
+        public static void Main(string[] args)
         {
-            CreateHostBuilder().Build().Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
-        public static IHostBuilder CreateHostBuilder() =>
-            new HostBuilder()
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
                 .ConfigureCoreConfiguration()
                 .ConfigureCoreHostBuilder<Startup>();
     }
