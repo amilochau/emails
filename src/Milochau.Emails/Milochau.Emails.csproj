@@ -5,12 +5,10 @@
     <OutputType>Exe</OutputType>
     <FunctionsInDependencies>true</FunctionsInDependencies>
     <UserSecretsId>730c3c1e-f125-4a4b-a4bf-c2130534f163</UserSecretsId>
-    <_FunctionsExtensionTargetFramework>netstandard2.0</_FunctionsExtensionTargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.ServiceBus" Version="5.0.0-beta.4" />
     <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.0.4" OutputItemType="Analyzer" />
-    <PackageReference Include="Microsoft.Azure.WebJobs.Script.ExtensionsMetadataGenerator" Version="1.2.3" />
     <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="5.0.1" />
     <PackageReference Include="Milochau.Core.Functions" Version="10.0.0-beta.3" />
     <PackageReference Include="Sendgrid" Version="9.24.2" />
