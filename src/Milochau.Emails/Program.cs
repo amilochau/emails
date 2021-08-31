@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Milochau.Core.Functions.Infrastructure.Hosting;
-using Milochau.Core.Infrastructure.Hosting;
 
 namespace Milochau.Emails
 {
@@ -13,7 +12,6 @@ namespace Milochau.Emails
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureCoreConfiguration()
                 .ConfigureCoreHostBuilder<Startup>();
     }
 }
