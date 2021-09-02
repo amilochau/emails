@@ -7,7 +7,6 @@ concurrency: deploy_app_dev
 
 env:
   PROJECTS_BUILD: './src/Milochau.Emails.App.sln'
-  PROJECTS_APPLICATION: './src/Milochau.Emails.App.sln'
   PROJECTS_PUBLISH: './src/Milochau.Emails'
   INFRA_TEMPLATE_PATH: '**/functions/template.bicep'
   INFRA_PARAMETERS_PATH: '**/.github/infrastructure/deploy-app.dev.json'
@@ -58,6 +57,7 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '3.1.x' # See https://github.com/Azure/azure-functions-dotnet-worker/wiki/Known-issues#net-core-31-dependency
+      
       - name: Build projects
         shell: bash
         run: dotnet build ${{ env.PROJECTS_BUILD }} --configuration Release

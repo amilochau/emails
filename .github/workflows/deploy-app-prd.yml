@@ -7,7 +7,7 @@ concurrency: deploy_app_prd
 
 env:
   PROJECTS_BUILD: './src/Milochau.Emails.App.sln'
-  PROJECTS_APPLICATION: './src/Milochau.Emails.App.sln'
+  PROJECTS_PUBLISH: './src/Milochau.Emails'
   INFRA_TEMPLATE_PATH: '**/functions/template.bicep'
   INFRA_PARAMETERS_PATH: '**/.github/infrastructure/deploy-app.prd.json'
   INFRA_RG_NAME: 'mil-emails-prd-rg'
@@ -57,25 +57,27 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '3.1.x' # See https://github.com/Azure/azure-functions-dotnet-worker/wiki/Known-issues#net-core-31-dependency
-      - name: Restore dependencies
-        shell: bash
-        run: dotnet restore ${{ env.PROJECTS_BUILD }}
+      
       - name: Build projects
         shell: bash
-        run: dotnet build ${{ env.PROJECTS_BUILD }} --configuration Release --no-restore
-      - name: Publish application
-        shell: bash
-        run: dotnet publish ${{ env.PROJECTS_APPLICATION }} --configuration Release --no-restore --no-build --output ./build
-        
+        run: dotnet build ${{ env.PROJECTS_BUILD }} --configuration Release
+
       - name: Login on Azure
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Download and install Azure Functions Core Tools v3
+        shell: bash
+        run: |
+          wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb
+          sudo dpkg -i packages-microsoft-prod.deb
+          sudo apt-get update
+          sudo apt-get install azure-functions-core-tools-3
       - name: Deploy Azure Functions application
-        uses: Azure/functions-action@v1
-        with:
-          app-name: ${{ env.INFRA_APP_NAME }}
-          package: './build'
+        shell: bash
+        run: func azure functionapp publish ${{ env.INFRA_APP_NAME }}
+        working-directory: ${{ env.PROJECTS_PUBLISH }}
+
       - name: Check health
         shell: pwsh
         run: Invoke-WebRequest ${{ env.INFRA_HEALTH }} -TimeoutSec 120 -MaximumRetryCount 12 -RetryIntervalSec 10
