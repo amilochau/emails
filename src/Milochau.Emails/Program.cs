@@ -8,13 +8,13 @@ namespace Milochau.Emails
 {
     public static class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
-            CreateHostBuilder(args).Build().Run();
+            CreateHostBuilder().Build().Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
+        public static IHostBuilder CreateHostBuilder() =>
+            new HostBuilder()
                 .ConfigureHostConfiguration(configurationBuilder =>
                 {
                     var environmentName = CoreOptionsFactory.GetCurrentEnvironmentFromEnvironmentVariables();
