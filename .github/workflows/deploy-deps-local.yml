@@ -6,7 +6,7 @@ on:
 concurrency: deploy_deps_loc
 
 env:
-  INFRA_TEMPLATE_PATH: '**/functions/template.bicep'
+  INFRA_TEMPLATE_PATH: '**/functions/local-dependencies.bicep'
   INFRA_PARAMETERS_PATH: '**/.github/infrastructure/deploy-app.local.json'
   INFRA_RG_NAME: 'mil-emails-local-rg'
   INFRA_RG_LOCATION: 'westeurope'
