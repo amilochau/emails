@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v2 # For template file
         with:
           repository: amilochau/azure-templates
-          ref: v3
+          ref: amilochau/use-naming-conventions
           path: templates
           token: ${{ secrets.PAT }}
       - name: Login on Azure
