@@ -26,11 +26,13 @@
       "value": [
         {
           "number": "1",
+          "comment": "attachments",
           "containers": [
-            "default"
+            "attachments"
           ],
           "readOnly": true,
-          "daysBeforeDeletion": 30
+          "daysBeforeDeletion": 30,
+          "allowBlobPublicAccess": false
         }
       ]
     }
