@@ -44,9 +44,9 @@ public class Startup
 
 You should configure these settings values - usually retrieved from configuration:
 
-| Key | Description | Default value | Comment |
-| --- | ----------- | ------------- | ------- |
-| `ServiceBusNamespace` | Namespace of the Service Bus used by the Emails microservice, to send emails; it should be formatted as `xxx.servicebus.windows.net` | None | The client application must have the `Azure Service Bus Data Sender` RBAC |
+| Key | Description | Default value |
+| --- | ----------- | ------------- |
+| `ServiceBusNamespace` | Namespace of the Service Bus used by the Emails microservice, to send emails; it should be formatted as `xxx.servicebus.windows.net` | None |
 | `StorageAccountUri` | URI of the Storage Account used by the Emails microservice store emails attachments; it should be formatted as `https://xxx.blob.core.windows.net` | None |
 
 Clients need the `Azure Service Bus Data Sender` RBAC role to send messages through Azure Service Bus queues.
