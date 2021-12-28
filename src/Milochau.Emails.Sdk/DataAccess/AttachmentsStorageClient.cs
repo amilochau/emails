@@ -33,6 +33,7 @@ namespace Milochau.Emails.Sdk.DataAccess
 
             return new EmailAttachmentContentResult
             {
+                FileName = fileName,
                 Uri = blobClient.Uri
             };
         }
