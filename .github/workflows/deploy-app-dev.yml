@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: DEV
     steps:
-      - uses: actions/checkout@v2 # For parameters file
+      - uses: actions/checkout@v3 # For parameters file
         with:
           path: application
       - name: Deploy infrastructure
@@ -43,7 +43,7 @@ jobs:
     needs: deploy_infra
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Deploy Azure Functions application
         uses: amilochau/github-actions/deploy/functions@v2
         with:
