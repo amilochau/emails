@@ -21,7 +21,8 @@
       "value": {
         "queues": [
           "emails"
-        ]
+        ],
+        "authorizeClients": true
       }
     },
     "storageAccountsOptions": {
@@ -35,7 +36,8 @@
             ],
             "readOnly": true,
             "daysBeforeDeletion": 30,
-            "allowBlobPublicAccess": false
+            "allowBlobPublicAccess": false,
+            "authorizeClients": true
           }
         ]
       }
