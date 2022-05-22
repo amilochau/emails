@@ -13,9 +13,9 @@ concurrency: deploy_app_dev
 
 env:
   PROJECTS_PUBLISH: './src/Milochau.Emails'
-  INFRA_DEPLOY_TEMPLATE_PATH: './templates/functions/template.bicep'
+  INFRA_DEPLOY_TYPE: 'functions'
   INFRA_DEPLOY_PARAMETERS_PATH: './application/.github/infrastructure/deploy-app.dev.json'
-  INFRA_REGISTER_TEMPLATE_PATH: './templates/functions/api-registration.bicep'
+  INFRA_REGISTER_TYPE: 'functions/api-registration'
   INFRA_REGISTER_PARAMETERS_PATH: './application/.github/infrastructure/register-app.dev.json'
   INFRA_RG_NAME: 'mil-emails-dev-rg'
   INFRA_RG_LOCATION: 'westeurope'
