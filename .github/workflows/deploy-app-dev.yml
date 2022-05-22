@@ -56,5 +56,6 @@ jobs:
         with:
           dotnetVersion: ${{ env.DOTNET_VERSION }}
           azureCredentials: ${{ secrets.AZURE_CREDENTIALS }}
+          resourceGroupName : ${{ env.INFRA_RG_NAME }}
           applicationName: ${{ env.INFRA_APP_NAME }}
           projectsToPublishPath: ${{ env.PROJECTS_PUBLISH }}
