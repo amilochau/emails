@@ -39,6 +39,11 @@
           }
         ]
       }
+    },
+    "extraAppSettings": {
+      "value": {
+        "SendGrid--Key": "<secret>SendGrid--Key</secret>"
+      }
     }
   }
 }
