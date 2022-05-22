@@ -17,12 +17,14 @@
     "applicationType": {
       "value": "isolatedDotnet6"
     },
-    "serviceBusQueues": {
-      "value": [
-        "emails"
-      ]
+    "serviceBusOptions": {
+      "value": {
+        "queues": [
+          "emails"
+        ]
+      }
     },
-    "storageAccounts": {
+    "storageAccountsOptions": {
       "value": [
         {
           "suffix": "1",
