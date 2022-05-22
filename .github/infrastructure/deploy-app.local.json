@@ -19,18 +19,20 @@
       }
     },
     "storageAccountsOptions": {
-      "value": [
-        {
-          "suffix": "1",
-          "comment": "attachments",
-          "containers": [
-            "attachments"
-          ],
-          "readOnly": true,
-          "daysBeforeDeletion": 30,
-          "allowBlobPublicAccess": false
-        }
-      ]
+      "value": {
+        "accounts": [
+          {
+            "suffix": "1",
+            "comment": "attachments",
+            "containers": [
+              "attachments"
+            ],
+            "readOnly": true,
+            "daysBeforeDeletion": 30,
+            "allowBlobPublicAccess": false
+          }
+        ]
+      }
     }
   }
 }
