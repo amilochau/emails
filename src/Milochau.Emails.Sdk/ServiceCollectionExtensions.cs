@@ -5,9 +5,7 @@ using System;
 using Milochau.Emails.Sdk.Helpers;
 using Microsoft.Extensions.Logging;
 using Azure.Identity;
-using Milochau.Core.Abstractions;
 using Azure.Messaging.ServiceBus;
-using Microsoft.Extensions.Options;
 using Azure.Storage.Blobs;
 
 namespace Milochau.Emails.Sdk
@@ -32,10 +30,10 @@ namespace Milochau.Emails.Sdk
             // Add services for Azure Storage Account
             services.AddSingleton<IAttachmentsClient>(serviceProvider =>
             {
-                var hostOptions = serviceProvider.GetService<IOptions<CoreHostOptions>>();
                 var logger = serviceProvider.GetRequiredService<ILogger<AttachmentsStorageClient>>();
 
-                var credential = new DefaultAzureCredential(hostOptions.Value.Credential);
+                var credentialOptions = GetCredentialOptions(settingsValue);
+                var credential = new DefaultAzureCredential(credentialOptions);
                 var blobServiceClient = new BlobServiceClient(settingsValue.StorageAccountUri, credential);
                 var blobContainerClient = blobServiceClient.GetBlobContainerClient(azureStorageContainerName);
                 return new AttachmentsStorageClient(blobContainerClient, logger);
@@ -44,11 +42,11 @@ namespace Milochau.Emails.Sdk
             // Add services for Azure Service Bus
             services.AddSingleton<IEmailsClient>(serviceProvider =>
             {
-                var hostOptions = serviceProvider.GetService<IOptions<CoreHostOptions>>();
                 var emailsValidationHelper = serviceProvider.GetRequiredService<IEmailsValidationHelper>();
                 var logger = serviceProvider.GetRequiredService<ILogger<EmailsServiceBusClient>>();
 
-                var credential = new DefaultAzureCredential(hostOptions.Value.Credential);
+                var credentialOptions = GetCredentialOptions(settingsValue);
+                var credential = new DefaultAzureCredential(credentialOptions);
                 var serviceBusClient = new ServiceBusClient(settingsValue.ServiceBusNamespace, credential);
                 var serviceBusSender = serviceBusClient.CreateSender(serviceBusQueueNameEmails);
 
@@ -56,6 +54,18 @@ namespace Milochau.Emails.Sdk
             });
 
             return services;
+        }
+
+        private static DefaultAzureCredentialOptions GetCredentialOptions(EmailsServiceSettings settingsValue)
+        {
+            var credentialOptions = new DefaultAzureCredentialOptions();
+
+            if (!string.IsNullOrWhiteSpace(settingsValue.ManagedIdentityClientId))
+            {
+                credentialOptions.ManagedIdentityClientId = settingsValue.ManagedIdentityClientId;
+            }
+
+            return credentialOptions;
         }
     }
 }
