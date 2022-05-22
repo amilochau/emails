@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: LOCAL
     steps:
-      - uses: actions/checkout@v2 # For parameters file
+      - uses: actions/checkout@v3 # For parameters file
         with:
           path: application
       - name: Deploy infrastructure
