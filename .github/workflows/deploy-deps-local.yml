@@ -2,6 +2,12 @@ name: Deploy dependencies (LOCAL)
 
 on:
   workflow_dispatch:
+    inputs:
+      forceDeployment:
+        description: Force infrastructure deployment if the last infrastructure template used is the same as the current one
+        required: false
+        default: false
+        type: boolean
 
 concurrency: deploy_deps_loc
 
@@ -10,7 +16,7 @@ env:
   INFRA_PARAMETERS_PATH: './application/.github/infrastructure/deploy-app.local.json'
   INFRA_RG_NAME: 'mil-emails-local-rg'
   INFRA_RG_LOCATION: 'westeurope'
-  TEMPLATES_VERSION: v7
+  TEMPLATES_VERSION: v8
 
 jobs:
   deploy_infra:
@@ -22,7 +28,7 @@ jobs:
         with:
           path: application
       - name: Deploy infrastructure
-        uses: amilochau/github-actions/deploy/infrastructure@v2
+        uses: amilochau/github-actions/deploy/infrastructure@v3
         with:
           azureTemplateVersion: ${{ env.TEMPLATES_VERSION }}
           azureCredentials: ${{ secrets.AZURE_CREDENTIALS }}
@@ -30,3 +36,4 @@ jobs:
           scopeLocation: ${{ env.INFRA_RG_LOCATION }}
           templateType: ${{ env.INFRA_TYPE }}
           parametersFilePath: ${{ env.INFRA_PARAMETERS_PATH }}
+          forceDeployment: ${{ github.event.inputs.forceDeployment }}

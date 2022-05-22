@@ -11,24 +11,28 @@
     "hostName": {
       "value": "local"
     },
-    "serviceBusQueues": {
-      "value": [
-        "emails"
-      ]
+    "serviceBusOptions": {
+      "value": {
+        "queues": [
+          "emails"
+        ]
+      }
     },
-    "storageAccounts": {
-      "value": [
-        {
-          "suffix": "1",
-          "comment": "attachments",
-          "containers": [
-            "attachments"
-          ],
-          "readOnly": true,
-          "daysBeforeDeletion": 30,
-          "allowBlobPublicAccess": false
-        }
-      ]
+    "storageAccountsOptions": {
+      "value": {
+        "accounts": [
+          {
+            "suffix": "1",
+            "comment": "attachments",
+            "containers": [
+              "attachments"
+            ],
+            "readOnly": true,
+            "daysBeforeDeletion": 30,
+            "allowBlobPublicAccess": false
+          }
+        ]
+      }
     }
   }
 }

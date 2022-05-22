@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Deploy libraries
-        uses: amilochau/github-actions/release/nuget@v2
+        uses: amilochau/github-actions/release/nuget@v3
         with:
           dotnetVersion: ${{ env.DOTNET_VERSION }}
           projectsToBuild: ${{ env.PROJECTS_BUILD }}

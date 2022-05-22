@@ -12,6 +12,6 @@ namespace Milochau.Emails
 
         public static IHostBuilder CreateHostBuilder() =>
             new HostBuilder()
-                .ConfigureCoreHostBuilder<Startup>();
+                .ConfigureFunctionsCoreHostBuilder<Startup>();
     }
 }

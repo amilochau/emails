@@ -33,6 +33,7 @@ namespace Milochau.Emails.Tests
             serviceCollection.AddSingleton<IConfiguration>(configuration);
             serviceCollection.AddSingleton(Mock.Of<IHostEnvironment>());
             serviceCollection.AddSingleton(Mock.Of<HtmlEncoder>());
+            serviceCollection.AddLogging();
 
             var startup = TestableStartup.Create<Startup>(configuration);
 
