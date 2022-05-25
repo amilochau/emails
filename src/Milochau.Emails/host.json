@@ -11,7 +11,8 @@
     "logLevel": {
       "default": "Warning",
       "Host.Aggregator": "Information",
-      "Host.Results": "Information"
+      "Host.Results": "Information",
+      "Azure.Core": "Error" // See https://github.com/Azure/azure-sdk-for-net/issues/21511
     }
   }
 }
