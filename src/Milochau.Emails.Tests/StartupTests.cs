@@ -26,7 +26,9 @@ namespace Milochau.Emails.Tests
 
             configurationBuilder.AddInMemoryCollection(new Dictionary<string, string>
             {
-                { "SendGrid:Key", "Key" }
+                { "SendGrid:Key", "Key" },
+                { "Database:ConnectionString", "AccountEndpoint=https://example.com;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==" },
+                { "Database:DatabaseName", "databasename" }
             });
 
             var configuration = configurationBuilder.Build();

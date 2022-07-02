@@ -37,6 +37,7 @@ namespace Milochau.Emails
             services.Configure<EmailsOptions>(options => configuration.GetSection("Emails").Bind(options))
                 .PostConfigure<EmailsOptions>(options => options.StorageAccountUri ??= $"https://{hostOptions.Application.OrganizationName}{hostOptions.Application.ApplicationName}{hostOptions.Application.HostName}sto1.blob.core.windows.net/");
             services.Configure<SendGridOptions>(options => configuration.GetSection("SendGrid").Bind(options));
+            services.Configure<DatabaseOptions>(options => configuration.GetSection("Database").Bind(options));
         }
 
         private void RegisterServices(IServiceCollection services)
