@@ -10,9 +10,6 @@ namespace Milochau.Emails.Sdk.Helpers
         /// <summary>Validate model before sending email</summary>
         public IEnumerable<string> ValidateEmail(Email email)
         {
-            if (email == null)
-                return new[] { "An email must be defined." };
-
             return ValidateBasics(email);
         }
 

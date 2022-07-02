@@ -15,13 +15,13 @@ namespace Milochau.Emails.Tests.Services
     [TestClass]
     public class EmailsServiceTests
     {
-        private Mock<IEmailsDataAccess> emailsDataAccess;
-        private Mock<IEmailTemplateFactory> emailTemplateFactory;
-        private Mock<IEmailTemplate> emailTemplate;
-        private Mock<IOptionsSnapshot<EmailsOptions>> options;
-        private EmailsOptions optionsValues;
+        private Mock<IEmailsDataAccess> emailsDataAccess = null!;
+        private Mock<IEmailTemplateFactory> emailTemplateFactory = null!;
+        private Mock<IEmailTemplate> emailTemplate = null!;
+        private Mock<IOptionsSnapshot<EmailsOptions>> options = null!;
+        private EmailsOptions optionsValues = null!;
 
-        private EmailsService emailsService;
+        private EmailsService emailsService = null!;
 
         [TestInitialize]
         public void Intialize()

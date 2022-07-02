@@ -15,10 +15,10 @@ namespace Milochau.Emails.Tests.Functions
     [TestClass]
     public class EmailsFunctionTests : BaseFunctionsTests
     {
-        private Mock<IEmailsService> emailsService;
-        private Mock<IEmailsValidationHelper> emailsValidationHelper;
+        private Mock<IEmailsService> emailsService = null!;
+        private Mock<IEmailsValidationHelper> emailsValidationHelper = null!;
 
-        private EmailsFunctions emailsFunctions;
+        private EmailsFunctions emailsFunctions = null!;
 
         [TestInitialize]
         public void Intialize()

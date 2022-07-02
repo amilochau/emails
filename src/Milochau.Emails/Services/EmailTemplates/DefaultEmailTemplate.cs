@@ -189,7 +189,7 @@ namespace Milochau.Emails.Services.EmailTemplates
         }
         private string GetBodyCallToAction(Email email)
         {
-            if (!string.IsNullOrEmpty(email.CallToAction.Url))
+            if (!string.IsNullOrEmpty(email.CallToAction.Url) && !string.IsNullOrEmpty(email.CallToAction.Title))
             {
                 return @"
 <tr>

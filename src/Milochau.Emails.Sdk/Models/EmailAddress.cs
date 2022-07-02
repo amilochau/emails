@@ -4,9 +4,9 @@
     public class EmailAddress
     {
         /// <summary>Name</summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>Email</summary>
-        public string Email { get; set; }
+        public string Email { get; set; } = null!;
     }
 }

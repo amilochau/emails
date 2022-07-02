@@ -30,16 +30,16 @@ namespace Milochau.Emails.Sdk.Models
         public EmailTable Table { get; set; } = new EmailTable();
 
         /// <summary>Mail subject</summary>
-        public string Subject { get; set; }
+        public string Subject { get; set; } = null!;
 
         /// <summary>Mail body</summary>
-        public string Body { get; set; }
+        public string Body { get; set; } = null!;
 
         /// <summary>Is <see cref="Body"/> HTML?</summary>
         public bool IsHtml { get; set; }
 
         /// <summary>Id of the template to use</summary>
-        public string TemplateId { get; set; }
+        public string? TemplateId { get; set; }
 
         /// <summary>Importance</summary>
         public ImportanceType Importance { get; set; }

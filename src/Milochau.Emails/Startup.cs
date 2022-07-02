@@ -57,7 +57,7 @@ namespace Milochau.Emails
 
             services.AddSingleton<IStorageDataAccess>(serviceProvider =>
             {
-                var emailsOptions = serviceProvider.GetService<IOptions<EmailsOptions>>().Value;
+                var emailsOptions = serviceProvider.GetRequiredService<IOptions<EmailsOptions>>().Value;
                 var logger = serviceProvider.GetRequiredService<ILogger<StorageDataAccess>>();
 
                 var credential = new DefaultAzureCredential(hostOptions.Credential);
@@ -68,7 +68,7 @@ namespace Milochau.Emails
             
             services.AddSingleton<ISendGridClient>(serviceProvider =>
             {
-                var options = serviceProvider.GetService<IOptions<SendGridOptions>>().Value;
+                var options = serviceProvider.GetRequiredService<IOptions<SendGridOptions>>().Value;
                 var sendGridKey = options.Key;
                 return new SendGridClient(sendGridKey);
             });

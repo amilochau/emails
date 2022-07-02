@@ -9,7 +9,7 @@ namespace Milochau.Emails.Sdk.UnitTests.Helpers
     [TestClass]
     public class EmailsValidationHelperTests
     {
-        private EmailsValidationHelper emailsValidationHelper;
+        private EmailsValidationHelper emailsValidationHelper = null!;
 
         [TestInitialize]
         public void Initialize()
@@ -18,10 +18,10 @@ namespace Milochau.Emails.Sdk.UnitTests.Helpers
         }
 
         [TestMethod]
-        public void ValidateEmail_Should_ReturnErrorsList_When_ModelIsNull()
+        public void ValidateEmail_Should_ReturnErrorsList_When_ModelIsEmpty()
         {
             // Arrange
-            Email email = null;
+            var email = new Email();
 
             // Act
             var errors = emailsValidationHelper.ValidateEmail(email);

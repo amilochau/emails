@@ -13,11 +13,11 @@ namespace Milochau.Emails.Sdk.UnitTests.DataAccess
     [TestClass]
     public class EmailsServiceBusClientTests
     {
-        private Mock<ServiceBusSender> serviceBusSender;
-        private Mock<IEmailsValidationHelper> emailsValidationHelper;
-        private Mock<ILogger<EmailsServiceBusClient>> logger;
+        private Mock<ServiceBusSender> serviceBusSender = null!;
+        private Mock<IEmailsValidationHelper> emailsValidationHelper = null!;
+        private Mock<ILogger<EmailsServiceBusClient>> logger = null!;
 
-        private EmailsServiceBusClient emailsServiceBusClient;
+        private EmailsServiceBusClient emailsServiceBusClient = null!;
 
         [TestInitialize]
         public void Initialize()

@@ -6,9 +6,9 @@ namespace Milochau.Emails.Sdk.Models
     public class EmailAttachmentContentResult
     {
         /// <summary>File name</summary>
-        public string FileName { get; set; }
+        public string FileName { get; set; } = null!;
 
         /// <summary>File URI</summary>
-        public Uri Uri { get; set; }
+        public Uri Uri { get; set; } = null!;
     }
 }
