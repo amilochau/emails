@@ -1,4 +1,4 @@
-﻿namespace Milochau.Emails.Models.Options
+﻿namespace Milochau.Emails.Options
 {
     public class SendGridOptions
     {

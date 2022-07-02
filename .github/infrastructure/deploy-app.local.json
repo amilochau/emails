@@ -11,6 +11,23 @@
     "hostName": {
       "value": "local"
     },
+    "cosmosContainers": {
+      "value": [
+        {
+          "name": "emails",
+          "partitionKey": "/id",
+          "includedPaths": [],
+          "excludedPaths": [
+            {
+              "path": "/*"
+            },
+            {
+              "path": "/\"_etag\"/?"
+            }
+          ]
+        }
+      ]
+    },
     "serviceBusOptions": {
       "value": {
         "queues": [

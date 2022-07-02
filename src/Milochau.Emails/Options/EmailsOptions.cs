@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Milochau.Emails.Models.Options
+namespace Milochau.Emails.Options
 {
     public class EmailsOptions
     {

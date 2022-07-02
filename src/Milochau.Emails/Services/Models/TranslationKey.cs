@@ -1,4 +1,4 @@
-﻿namespace Milochau.Emails.Models
+﻿namespace Milochau.Emails.Services.Models
 {
     public enum TranslationKey
     {

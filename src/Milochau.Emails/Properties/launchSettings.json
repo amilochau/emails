@@ -2,32 +2,38 @@
   "profiles": {
     "Local": {
       "commandName": "Project",
+      "commandLineArgs": "--port 7071 --cors *",
       "environmentVariables": {
         "AZURE_FUNCTIONS_ORGANIZATION": "mil",
         "AZURE_FUNCTIONS_APPLICATION": "emails",
         "AZURE_FUNCTIONS_HOST": "local",
+        "AZURE_FUNCTIONS_REGION": "ew1",
         "AZURE_FUNCTIONS_ENVIRONMENT": "Development",
-        "AZURE_FUNCTIONS_REGION": "ew1"
+        // The following connection string is NOT a secret, as it is generic for Azure Cosmos DB Emulator!
+        "Database:ConnectionString": "AccountEndpoint=https://localhost:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
+        "Database:DatabaseName": "mil-emails-local-cosmosdb"
       }
     },
     "Development": {
       "commandName": "Project",
+      "commandLineArgs": "--port 7071 --cors *",
       "environmentVariables": {
         "AZURE_FUNCTIONS_ORGANIZATION": "mil",
         "AZURE_FUNCTIONS_APPLICATION": "emails",
         "AZURE_FUNCTIONS_HOST": "local",
-        "AZURE_FUNCTIONS_ENVIRONMENT": "Development",
-        "AZURE_FUNCTIONS_REGION": "ew1"
+        "AZURE_FUNCTIONS_REGION": "ew1",
+        "AZURE_FUNCTIONS_ENVIRONMENT": "Development"
       }
     },
     "Production": {
       "commandName": "Project",
+      "commandLineArgs": "--port 7071 --cors *",
       "environmentVariables": {
         "AZURE_FUNCTIONS_ORGANIZATION": "mil",
         "AZURE_FUNCTIONS_APPLICATION": "emails",
         "AZURE_FUNCTIONS_HOST": "local",
-        "AZURE_FUNCTIONS_ENVIRONMENT": "Production",
-        "AZURE_FUNCTIONS_REGION": "ew1"
+        "AZURE_FUNCTIONS_REGION": "ew1",
+        "AZURE_FUNCTIONS_ENVIRONMENT": "Production"
       }
     }
   }

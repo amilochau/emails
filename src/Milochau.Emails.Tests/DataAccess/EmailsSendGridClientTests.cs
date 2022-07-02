@@ -9,6 +9,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Milochau.Emails.DataAccess.Implementations;
+using Microsoft.Azure.Cosmos;
+using Microsoft.Extensions.Options;
+using Milochau.Emails.Options;
 
 namespace Milochau.Emails.Tests.DataAccess
 {
@@ -17,6 +21,8 @@ namespace Milochau.Emails.Tests.DataAccess
     {
         private Mock<ISendGridClient> sendGridClient = null!;
         private Mock<IStorageDataAccess> storageDataAccess = null!;
+        private Mock<CosmosClient> cosmosClient = null!;
+        private Mock<IOptions<DatabaseOptions>> databaseOptions = null!;
         private Mock<ILogger<EmailsSendGridClient>> logger = null!;
 
         private EmailsSendGridClient emailsSendGridClient = null!;
@@ -26,9 +32,23 @@ namespace Milochau.Emails.Tests.DataAccess
         {
             sendGridClient = new Mock<ISendGridClient>();
             storageDataAccess = new Mock<IStorageDataAccess>();
+            cosmosClient = new Mock<CosmosClient>();
+            databaseOptions = new Mock<IOptions<DatabaseOptions>>();
             logger = new Mock<ILogger<EmailsSendGridClient>>();
 
-            emailsSendGridClient = new EmailsSendGridClient(sendGridClient.Object, storageDataAccess.Object, logger.Object);
+            var container = new Mock<Container>();
+            var response = new Mock<ItemResponse<Emails.DataAccess.Entities.Email>>();
+            response.SetupGet(x => x.Diagnostics).Returns(new Mock<CosmosDiagnostics>().Object);
+            container.Setup(x => x.CreateItemAsync(It.IsAny<Emails.DataAccess.Entities.Email>(), It.IsAny<PartitionKey>(), It.IsAny<ItemRequestOptions>(), default)).ReturnsAsync(response.Object);
+            cosmosClient.Setup(x => x.GetContainer(It.IsAny<string>(), It.IsAny<string>())).Returns(container.Object);
+            databaseOptions.SetupGet(x => x.Value).Returns(new DatabaseOptions());
+
+            emailsSendGridClient = new EmailsSendGridClient(
+                sendGridClient.Object,
+                storageDataAccess.Object,
+                cosmosClient.Object,
+                databaseOptions.Object,
+                logger.Object);
         }
 
         [TestMethod]

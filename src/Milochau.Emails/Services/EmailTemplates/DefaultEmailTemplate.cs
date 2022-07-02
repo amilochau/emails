@@ -1,5 +1,5 @@
 ﻿using Milochau.Emails.Sdk.Models;
-using Milochau.Emails.Models;
+using Milochau.Emails.Services.Models;
 using System;
 using System.Text.Encodings.Web;
 

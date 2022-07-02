@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Azure.Cosmos;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Milochau.Emails.DataAccess.Helpers;
+using Milochau.Emails.Options;
 using Milochau.Emails.Sdk.Models;
 using Polly;
 using SendGrid;
@@ -7,20 +11,28 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Milochau.Emails.DataAccess
+namespace Milochau.Emails.DataAccess.Implementations
 {
     internal class EmailsSendGridClient : IEmailsDataAccess
     {
         private readonly ISendGridClient sendGridClient;
         private readonly IStorageDataAccess storageDataAccess;
+        private readonly CosmosClient cosmosClient;
+        private readonly IOptions<DatabaseOptions> databaseOptions;
         private readonly ILogger<EmailsSendGridClient> logger;
+
+        public string DatabaseName => databaseOptions.Value.DatabaseName;
 
         public EmailsSendGridClient(ISendGridClient sendGridClient,
             IStorageDataAccess storageDataAccess,
+            CosmosClient cosmosClient,
+            IOptions<DatabaseOptions> databaseOptions,
             ILogger<EmailsSendGridClient> logger)
         {
             this.sendGridClient = sendGridClient;
             this.storageDataAccess = storageDataAccess;
+            this.cosmosClient = cosmosClient;
+            this.databaseOptions = databaseOptions;
             this.logger = logger;
         }
 
@@ -36,6 +48,17 @@ namespace Milochau.Emails.DataAccess
                 });
 
             await policy.ExecuteAsync((ctx) => SendEmailAsync(sendGridMessage, ctx), cancellationToken);
+
+            var entity = new Entities.Email
+            {
+                Id = Guid.NewGuid().ToString("N"),
+                Tos = email.Tos,
+                Ccs = email.Ccs,
+                Bccs = email.Bccs,
+                Subject = email.Subject,
+                TemplateId = email.TemplateId
+            };
+            await cosmosClient.CreateItemAsync(DatabaseName, CosmosClientConstants.EmailsContainerName, entity, entity.Id, logger, cancellationToken);
         }
 
         public async Task SendEmailAsync(SendGridMessage sendGridMessage, CancellationToken cancellationToken)
