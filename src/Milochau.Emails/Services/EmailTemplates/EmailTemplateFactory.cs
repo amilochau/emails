@@ -13,12 +13,12 @@ namespace Milochau.Emails.Services.EmailTemplates
             this.sp = sp;
         }
 
-        public IEmailTemplate Create(string templateId)
+        public IEmailTemplate Create(string? templateId)
         {
             return templateId switch
             {
-                "Wedding" => new WeddingEmailTemplate(sp.GetService<ITranslationService>(), sp.GetService<HtmlEncoder>()),
-                _ => new DefaultEmailTemplate(sp.GetService<ITranslationService>(), sp.GetService<HtmlEncoder>()),
+                "Wedding" => new WeddingEmailTemplate(sp.GetRequiredService<ITranslationService>(), sp.GetRequiredService<HtmlEncoder>()),
+                _ => new DefaultEmailTemplate(sp.GetRequiredService<ITranslationService>(), sp.GetRequiredService<HtmlEncoder>()),
             };
         }
     }

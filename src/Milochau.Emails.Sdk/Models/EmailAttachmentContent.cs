@@ -6,6 +6,6 @@ namespace Milochau.Emails.Sdk.Models
     public class EmailAttachmentContent
     {
         /// <summary>File content</summary>
-        public Stream Content { get; set; }
+        public Stream Content { get; set; } = null!;
     }
 }

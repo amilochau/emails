@@ -9,7 +9,7 @@ namespace Milochau.Emails.Sdk.UnitTests
     [TestClass]
     public class ServiceCollectionExtensionsTests
     {
-        private ServiceCollection serviceCollection;
+        private ServiceCollection serviceCollection = null!;
 
         [TestInitialize]
         public void Initialize()

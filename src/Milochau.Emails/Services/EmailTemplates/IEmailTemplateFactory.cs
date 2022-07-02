@@ -2,6 +2,6 @@
 {
     public interface IEmailTemplateFactory
     {
-        IEmailTemplate Create(string templateId);
+        IEmailTemplate Create(string? templateId);
     }
 }

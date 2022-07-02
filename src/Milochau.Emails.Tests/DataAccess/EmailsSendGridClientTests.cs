@@ -15,11 +15,11 @@ namespace Milochau.Emails.Tests.DataAccess
     [TestClass]
     public class EmailsSendGridClientTests
     {
-        private Mock<ISendGridClient> sendGridClient;
-        private Mock<IStorageDataAccess> storageDataAccess;
-        private Mock<ILogger<EmailsSendGridClient>> logger;
+        private Mock<ISendGridClient> sendGridClient = null!;
+        private Mock<IStorageDataAccess> storageDataAccess = null!;
+        private Mock<ILogger<EmailsSendGridClient>> logger = null!;
 
-        private EmailsSendGridClient emailsSendGridClient;
+        private EmailsSendGridClient emailsSendGridClient = null!;
 
         [TestInitialize]
         public void Intiialize()

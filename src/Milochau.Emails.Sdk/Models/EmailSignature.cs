@@ -4,18 +4,18 @@
     public class EmailSignature
     {
         /// <summary>Image URL</summary>
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
 
         /// <summary>Name</summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>Job title</summary>
-        public string JobTitle { get; set; }
+        public string? JobTitle { get; set; }
 
         /// <summary>Phone number</summary>
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
         /// <summary>Email</summary>
-        public string Email { get; set; }
+        public string? Email { get; set; }
     }
 }

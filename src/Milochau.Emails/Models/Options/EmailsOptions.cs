@@ -8,6 +8,6 @@ namespace Milochau.Emails.Models.Options
 
         /// <summary>URI of the Storage Account used by the Emails microservice store emails attachments</summary>
         /// <remarks>Should be formatted as: https://xxx.blob.core.windows.net</remarks>
-        public string StorageAccountUri { get; set; }
+        public string StorageAccountUri { get; set; } = null!;
     }
 }

@@ -4,9 +4,9 @@
     public class EmailCallToAction
     {
         /// <summary>URL</summary>
-        public string Url { get; set; }
+        public string? Url { get; set; }
 
         /// <summary>Title</summary>
-        public string Title { get; set; }
+        public string? Title { get; set; }
     }
 }

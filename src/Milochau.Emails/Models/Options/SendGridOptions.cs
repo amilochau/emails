@@ -2,6 +2,6 @@
 {
     public class SendGridOptions
     {
-        public string Key { get; set; }
+        public string Key { get; set; } = null!;
     }
 }
