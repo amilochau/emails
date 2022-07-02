@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using Milochau.Core.Functions;
 using Milochau.Emails.Sdk.Helpers;
 using Milochau.Emails.DataAccess;
-using Milochau.Emails.Models.Options;
+using Milochau.Emails.Options;
 using Milochau.Emails.Services;
 using Milochau.Emails.Services.EmailTemplates;
 using SendGrid;
@@ -13,6 +13,11 @@ using Microsoft.Extensions.Logging;
 using Azure.Identity;
 using Azure.Storage.Blobs;
 using System;
+using Microsoft.Azure.Cosmos;
+using Milochau.Core.Abstractions;
+using Azure.Core;
+using Milochau.Emails.DataAccess.Implementations;
+using Milochau.Emails.Services.Implementations;
 
 namespace Milochau.Emails
 {
@@ -29,17 +34,9 @@ namespace Milochau.Emails
 
         private void RegisterOptions(IServiceCollection services)
         {
-            services.AddOptions<EmailsOptions>()
-                .Configure<IConfiguration>((settings, configuration) =>
-                {
-                    configuration.Bind("Emails", settings);
-                    settings.StorageAccountUri ??= $"https://{hostOptions.Application.OrganizationName}{hostOptions.Application.ApplicationName}{hostOptions.Application.HostName}sto1.blob.core.windows.net/";
-                });
-            services.AddOptions<SendGridOptions>()
-                .Configure<IConfiguration>((settings, configuration) =>
-                {
-                    configuration.Bind("SendGrid", settings);
-                });
+            services.Configure<EmailsOptions>(options => configuration.GetSection("Emails").Bind(options))
+                .PostConfigure<EmailsOptions>(options => options.StorageAccountUri ??= $"https://{hostOptions.Application.OrganizationName}{hostOptions.Application.ApplicationName}{hostOptions.Application.HostName}sto1.blob.core.windows.net/");
+            services.Configure<SendGridOptions>(options => configuration.GetSection("SendGrid").Bind(options));
         }
 
         private void RegisterServices(IServiceCollection services)
@@ -74,6 +71,34 @@ namespace Milochau.Emails
             });
 
             services.AddSingleton(HtmlEncoder.Default);
+
+            services.AddSingleton(serviceProvider =>
+            {
+                var applicationHostEnvironment = serviceProvider.GetRequiredService<IApplicationHostEnvironment>();
+                var databaseOptions = serviceProvider.GetRequiredService<IOptions<DatabaseOptions>>();
+                var credential = serviceProvider.GetRequiredService<TokenCredential>();
+
+                var cosmosClientOptions = new CosmosClientOptions
+                {
+                    ApplicationName = applicationHostEnvironment.ApplicationName,
+                    EnableContentResponseOnWrite = false,
+                    SerializerOptions = new CosmosSerializationOptions
+                    {
+                        IgnoreNullValues = true,
+                        Indented = false,
+                        PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase
+                    }
+                };
+
+                if (!string.IsNullOrEmpty(databaseOptions.Value.ConnectionString))
+                {
+                    return new CosmosClient(databaseOptions.Value.ConnectionString, cosmosClientOptions);
+                }
+                else
+                {
+                    return new CosmosClient(databaseOptions.Value.AccountEndpoint, credential, cosmosClientOptions);
+                }
+            });
         }
     }
 }

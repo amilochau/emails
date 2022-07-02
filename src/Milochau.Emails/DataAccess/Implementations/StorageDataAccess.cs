@@ -6,7 +6,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Milochau.Emails.DataAccess
+namespace Milochau.Emails.DataAccess.Implementations
 {
     internal class StorageDataAccess : IStorageDataAccess
     {

@@ -1,7 +1,6 @@
 ﻿using Milochau.Emails.DataAccess;
-using Milochau.Emails.Models.Options;
+using Milochau.Emails.Options;
 using Milochau.Emails.Sdk.Models;
-using Milochau.Emails.Services;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -9,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Milochau.Emails.Services.EmailTemplates;
+using Milochau.Emails.Services.Implementations;
 
 namespace Milochau.Emails.Tests.Services
 {

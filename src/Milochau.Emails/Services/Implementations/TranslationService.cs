@@ -1,7 +1,7 @@
 ﻿using Milochau.Emails.Sdk.Models;
-using Milochau.Emails.Models;
+using Milochau.Emails.Services.Models;
 
-namespace Milochau.Emails.Services
+namespace Milochau.Emails.Services.Implementations
 {
     public class TranslationService : ITranslationService
     {

@@ -1,5 +1,5 @@
 ﻿using Milochau.Emails.DataAccess;
-using Milochau.Emails.Models.Options;
+using Milochau.Emails.Options;
 using Milochau.Emails.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

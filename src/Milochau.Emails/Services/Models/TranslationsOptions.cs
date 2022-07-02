@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace Milochau.Emails.Models
+namespace Milochau.Emails.Services.Models
 {
     [Serializable]
     public class TranslationsOptions : Dictionary<TypeCulture, TranslationsValues>
