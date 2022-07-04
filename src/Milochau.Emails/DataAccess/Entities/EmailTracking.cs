@@ -1,11 +1,12 @@
 ﻿using Milochau.Emails.Helpers;
 using Milochau.Emails.Sdk.Models;
+using System;
 using System.Collections.Generic;
 using System.Net;
 
 namespace Milochau.Emails.DataAccess.Entities
 {
-    public class Email : IEntity
+    public class EmailTracking : IEntity
     {
         public string Id { get; set; } = null!;
 
@@ -19,5 +20,7 @@ namespace Milochau.Emails.DataAccess.Entities
         public string? TemplateId { get; set; }
 
         public HttpStatusCode StatusCode { get; set; }
+
+        public DateTime CreationDate { get; set; } = DateTime.UtcNow;
     }
 }

@@ -14,7 +14,7 @@
     "cosmosContainers": {
       "value": [
         {
-          "name": "emails",
+          "name": "tracking",
           "partitionKey": "/id",
           "includedPaths": [],
           "excludedPaths": [

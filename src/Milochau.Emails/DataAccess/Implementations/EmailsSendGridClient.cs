@@ -38,7 +38,7 @@ namespace Milochau.Emails.DataAccess.Implementations
 
         public async Task SendEmailAsync(Email email, CancellationToken cancellationToken)
         {
-            var trackingEmail = CreateTrackingEmail(email);
+            var emailTracking = CreateTrackingEmail(email);
             var sendGridMessage = await CreateSendGridMessageAsync(email, cancellationToken);
 
             var policy = Policy
@@ -48,16 +48,16 @@ namespace Milochau.Emails.DataAccess.Implementations
                     logger.LogWarning(exception, $"Error with attempt #{count} to send email with SendGrid");
                 });
 
-            await policy.ExecuteAsync((ctx) => SendEmailAsync(sendGridMessage, trackingEmail, ctx), cancellationToken);
+            await policy.ExecuteAsync((ctx) => SendEmailAsync(sendGridMessage, emailTracking, ctx), cancellationToken);
         }
 
-        public async Task SendEmailAsync(SendGridMessage sendGridMessage, Entities.Email trackingEmail, CancellationToken cancellationToken)
+        public async Task SendEmailAsync(SendGridMessage sendGridMessage, Entities.EmailTracking emailTracking, CancellationToken cancellationToken)
         {
             var response = await sendGridClient.SendEmailAsync(sendGridMessage, cancellationToken);
 
-            trackingEmail.Id = Guid.NewGuid().ToString("N");
-            trackingEmail.StatusCode = response.StatusCode;
-            await cosmosClient.CreateItemAsync(DatabaseName, CosmosClientConstants.EmailsContainerName, trackingEmail, trackingEmail.Id, logger, cancellationToken);
+            emailTracking.Id = Guid.NewGuid().ToString("N");
+            emailTracking.StatusCode = response.StatusCode;
+            await cosmosClient.CreateItemAsync(DatabaseName, CosmosClientConstants.TrackingContainerName, emailTracking, emailTracking.Id, logger, cancellationToken);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -139,9 +139,9 @@ namespace Milochau.Emails.DataAccess.Implementations
             }
         }
 
-        private static Entities.Email CreateTrackingEmail(Email email)
+        private static Entities.EmailTracking CreateTrackingEmail(Email email)
         {
-            return new Entities.Email
+            return new Entities.EmailTracking
             {
                 Tos = email.Tos,
                 Ccs = email.Ccs,
