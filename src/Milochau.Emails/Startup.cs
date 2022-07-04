@@ -34,10 +34,18 @@ namespace Milochau.Emails
 
         private void RegisterOptions(IServiceCollection services)
         {
-            services.Configure<EmailsOptions>(options => configuration.GetSection("Emails").Bind(options))
-                .PostConfigure<EmailsOptions>(options => options.StorageAccountUri ??= $"https://{hostOptions.Application.OrganizationName}{hostOptions.Application.ApplicationName}{hostOptions.Application.HostName}sto1.blob.core.windows.net/");
-            services.Configure<SendGridOptions>(options => configuration.GetSection("SendGrid").Bind(options));
-            services.Configure<DatabaseOptions>(options => configuration.GetSection("Database").Bind(options));
+            services.Configure<EmailsOptions>(options => Configuration.GetSection("Emails").Bind(options))
+                .PostConfigure<EmailsOptions>(options =>
+                {
+                    options.StorageAccountUri ??= HostOptions.Application.GetInfrastructureConvention(InfrastructureConventionType.StorageAccountUri, "1");
+                });
+            services.Configure<SendGridOptions>(options => Configuration.GetSection("SendGrid").Bind(options));
+            services.Configure<DatabaseOptions>(options => Configuration.GetSection("Database").Bind(options))
+                .PostConfigure<DatabaseOptions>(options =>
+                {
+                    options.DatabaseName ??= HostOptions.Application.GetInfrastructureConvention(InfrastructureConventionType.CosmosDbDatabaseName);
+                    options.AccountEndpoint ??= HostOptions.Application.GetInfrastructureConvention(InfrastructureConventionType.CosmosDbAccountEndpoint);
+                });
         }
 
         private void RegisterServices(IServiceCollection services)
@@ -58,12 +66,12 @@ namespace Milochau.Emails
                 var emailsOptions = serviceProvider.GetRequiredService<IOptions<EmailsOptions>>().Value;
                 var logger = serviceProvider.GetRequiredService<ILogger<StorageDataAccess>>();
 
-                var credential = new DefaultAzureCredential(hostOptions.Credential);
+                var credential = new DefaultAzureCredential(HostOptions.Credential);
                 var blobServiceClient = new BlobServiceClient(new Uri(emailsOptions.StorageAccountUri), credential);
                 var blobContainerClient = blobServiceClient.GetBlobContainerClient(StorageDataAccess.DefaultContainerName);
                 return new StorageDataAccess(blobContainerClient, logger);
             });
-            
+
             services.AddSingleton<ISendGridClient>(serviceProvider =>
             {
                 var options = serviceProvider.GetRequiredService<IOptions<SendGridOptions>>().Value;
