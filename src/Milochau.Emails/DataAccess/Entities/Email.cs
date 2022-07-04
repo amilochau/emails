@@ -1,10 +1,6 @@
 ﻿using Milochau.Emails.Helpers;
 using Milochau.Emails.Sdk.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Net;
 
 namespace Milochau.Emails.DataAccess.Entities

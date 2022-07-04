@@ -1,5 +1,4 @@
 ﻿using Milochau.Emails.Sdk.Models;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
