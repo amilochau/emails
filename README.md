@@ -16,20 +16,8 @@ You can find the new releases on the [GitHub releases page](https://github.com/a
 
 ---
 
-## Configuration needed
+## Secrets needed
 
-These settings need to be defined; default value for local development are fetched from configuration providers:
+These secret settings need to be defined:
 
 - **`SendGrid:Key`**
-- `Emails:AuthorizedRecipientHosts`
-- `Emails:StorageAccountUri` (needs `Storage Blob Data Reader` RBAC)
-
-These settings can not be defined from Azure App Configuration / Azure Key Vault, and should be defined in `local.settings.json` **and** in hosting configuration as environment variables:
-
-- **`AZURE_FUNCTIONS_ORGANIZATION`**
-- **`AZURE_FUNCTIONS_APPLICATION`**
-- **`AZURE_FUNCTIONS_ENVIRONMENT`**
-- **`AZURE_FUNCTIONS_HOST`**
-- **`AZURE_FUNCTIONS_KEYVAULT_VAULT`**
-- **`AZURE_FUNCTIONS_APPCONFIG_ENDPOINT`**
-- **`ServiceBusConnectionString`**
