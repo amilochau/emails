@@ -3,10 +3,10 @@
     public class CosmosClientConstants
     {
         /*
-         * Container name: emails
+         * Container name: tracking
          * Id: /id
          * Partition key: /id
          */
-        public const string EmailsContainerName = "emails";
+        public const string TrackingContainerName = "tracking";
     }
 }

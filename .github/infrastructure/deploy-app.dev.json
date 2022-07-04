@@ -20,7 +20,7 @@
     "cosmosContainers": {
       "value": [
         {
-          "name": "emails",
+          "name": "tracking",
           "partitionKey": "/id",
           "includedPaths": [],
           "excludedPaths": [
@@ -30,7 +30,8 @@
             {
               "path": "/\"_etag\"/?"
             }
-          ]
+          ],
+          "defaultTtl": 31536000
         }
       ]
     },
@@ -63,6 +64,13 @@
       "value": {
         "SendGrid__Key": "<secret>SendGrid--Key</secret>"
       }
+    },
+    "contributionGroups": {
+      "value": [
+        {
+          "id": "e279ad0a-9626-48e4-b601-fcaae160132b"
+        }
+      ]
     }
   }
 }

@@ -40,9 +40,9 @@ namespace Milochau.Emails.Tests.DataAccess
             logger = new Mock<ILogger<EmailsSendGridClient>>();
 
             var container = new Mock<Container>();
-            var response = new Mock<ItemResponse<Emails.DataAccess.Entities.Email>>();
+            var response = new Mock<ItemResponse<Emails.DataAccess.Entities.EmailTracking>>();
             response.SetupGet(x => x.Diagnostics).Returns(new Mock<CosmosDiagnostics>().Object);
-            container.Setup(x => x.CreateItemAsync(It.IsAny<Emails.DataAccess.Entities.Email>(), It.IsAny<PartitionKey>(), It.IsAny<ItemRequestOptions>(), default)).ReturnsAsync(response.Object);
+            container.Setup(x => x.CreateItemAsync(It.IsAny<Emails.DataAccess.Entities.EmailTracking>(), It.IsAny<PartitionKey>(), It.IsAny<ItemRequestOptions>(), default)).ReturnsAsync(response.Object);
             cosmosClient.Setup(x => x.GetContainer(It.IsAny<string>(), It.IsAny<string>())).Returns(container.Object);
             databaseOptions.SetupGet(x => x.Value).Returns(new DatabaseOptions());
 
