@@ -16,7 +16,7 @@ env:
   INFRA_PARAMETERS_PATH: './application/.github/infrastructure/deploy-app.local.json'
   INFRA_RG_NAME: 'mil-emails-local-rg'
   INFRA_RG_LOCATION: 'westeurope'
-  TEMPLATES_VERSION: amilochau/support-cosmos-container-default-ttl
+  TEMPLATES_VERSION: v8
 
 jobs:
   deploy_infra:
