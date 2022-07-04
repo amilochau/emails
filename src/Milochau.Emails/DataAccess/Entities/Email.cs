@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net;
 
 namespace Milochau.Emails.DataAccess.Entities
 {
@@ -20,5 +21,7 @@ namespace Milochau.Emails.DataAccess.Entities
 
         public string Subject { get; set; } = null!;
         public string? TemplateId { get; set; }
+
+        public HttpStatusCode StatusCode { get; set; }
     }
 }
