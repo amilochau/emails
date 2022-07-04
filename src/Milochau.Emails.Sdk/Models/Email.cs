@@ -6,13 +6,13 @@ namespace Milochau.Emails.Sdk.Models
     public class Email
     {
         /// <summary>Recipients</summary>
-        public List<EmailAddress> Tos { get; set; } = new List<EmailAddress>();
+        public IList<EmailAddress> Tos { get; set; } = new List<EmailAddress>();
 
         /// <summary>Carbon Copies</summary>
-        public List<EmailAddress> Ccs { get; set; } = new List<EmailAddress>();
+        public IList<EmailAddress> Ccs { get; set; } = new List<EmailAddress>();
 
         /// <summary>Blind Carbon Copies</summary>
-        public List<EmailAddress> Bccs { get; set; } = new List<EmailAddress>();
+        public IList<EmailAddress> Bccs { get; set; } = new List<EmailAddress>();
 
         /// <summary>Sender</summary>
         public EmailAddress From { get; set; } = new EmailAddress();

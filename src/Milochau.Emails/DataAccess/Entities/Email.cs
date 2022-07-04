@@ -9,11 +9,11 @@ namespace Milochau.Emails.DataAccess.Entities
     {
         public string Id { get; set; } = null!;
 
-        public List<EmailAddress> Tos { get; set; } = new List<EmailAddress>();
+        public IList<EmailAddress> Tos { get; set; } = new List<EmailAddress>();
 
-        public List<EmailAddress> Ccs { get; set; } = new List<EmailAddress>();
+        public IList<EmailAddress> Ccs { get; set; } = new List<EmailAddress>();
 
-        public List<EmailAddress> Bccs { get; set; } = new List<EmailAddress>();
+        public IList<EmailAddress> Bccs { get; set; } = new List<EmailAddress>();
 
         public string Subject { get; set; } = null!;
         public string? TemplateId { get; set; }

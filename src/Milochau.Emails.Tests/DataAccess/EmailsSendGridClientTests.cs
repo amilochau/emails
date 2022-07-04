@@ -31,6 +31,9 @@ namespace Milochau.Emails.Tests.DataAccess
         public void Intiialize()
         {
             sendGridClient = new Mock<ISendGridClient>();
+            var sendGridResponse = new Response(System.Net.HttpStatusCode.OK, null, null);
+            sendGridClient.Setup(x => x.SendEmailAsync(It.IsAny<SendGridMessage>(), default)).ReturnsAsync(sendGridResponse);
+
             storageDataAccess = new Mock<IStorageDataAccess>();
             cosmosClient = new Mock<CosmosClient>();
             databaseOptions = new Mock<IOptions<DatabaseOptions>>();
