@@ -47,24 +47,46 @@ namespace Milochau.Emails.Services.Implementations
 
         internal void FormatRecipients(Email email)
         {
-            if (options.AuthorizedRecipientHosts != null && options.AuthorizedRecipientHosts.Any())
-            {
-                ReplaceUnauthorizedRecipientHosts(email.Tos);
-                ReplaceUnauthorizedRecipientHosts(email.Ccs);
-                ReplaceUnauthorizedRecipientHosts(email.Bccs);
-            }
+            email.Tos = FormatRecipients(email.Tos);
+            email.Ccs = FormatRecipients(email.Ccs, email.Tos.ToArray());
+            email.Bccs = FormatRecipients(email.Bccs, email.Tos.Concat(email.Ccs).ToArray());
         }
 
-        internal void ReplaceUnauthorizedRecipientHosts(List<EmailAddress> addresses)
+        internal IList<EmailAddress> FormatRecipients(IList<EmailAddress> addresses, params EmailAddress[] includedAddresses)
         {
-            addresses.RemoveAll(x => !options.AuthorizedRecipientHosts.Contains(new MailAddress(x.Email).Host));
+            var formattedAddresses = new List<EmailAddress>();
+
+            foreach (var address in addresses)
+            {
+                if (string.IsNullOrWhiteSpace(address.Email))
+                {
+                    // The email address is empty
+                    continue;
+                }
+
+                if (formattedAddresses.Any(x => x.Email.Equals(address.Email, System.StringComparison.OrdinalIgnoreCase))
+                    || includedAddresses.Any(x => x.Email.Equals(address.Email, System.StringComparison.OrdinalIgnoreCase)))
+                {
+                    // The email address is already added as a recipient
+                    continue;
+                }
+
+                if (options.AuthorizedRecipientHosts.Any()
+                    && !options.AuthorizedRecipientHosts.Contains(new MailAddress(address.Email).Host))
+                {
+                    // The host is not authorized
+                    continue;
+                }
+
+                formattedAddresses.Add(address);
+            }
+
+            return formattedAddresses;
         }
 
         internal void FormatReplyTo(Email email)
         {
-            if (email.ReplyTo == null)
-                email.ReplyTo = new EmailAddress();
-            if (string.IsNullOrEmpty(email.ReplyTo.Email))
+            if (string.IsNullOrWhiteSpace(email.ReplyTo.Email))
                 email.ReplyTo.Email = email.From.Email;
         }
     }

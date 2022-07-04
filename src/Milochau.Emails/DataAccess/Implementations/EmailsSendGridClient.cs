@@ -74,24 +74,31 @@ namespace Milochau.Emails.DataAccess.Implementations
                 Subject = email.Subject
             };
 
-            email.Tos.ForEach(x => sendGridMessage.AddTo(x.Email, x.Name));
-
-            if (email.Ccs != null)
-                email.Ccs.ForEach(x => sendGridMessage.AddCc(x.Email, x.Name));
-
-            if (email.Bccs != null)
-                email.Bccs.ForEach(x => sendGridMessage.AddBcc(x.Email, x.Name));
-
-            if (email.ReplyTo != null)
-                sendGridMessage.ReplyTo = new SendGrid.Helpers.Mail.EmailAddress(email.ReplyTo.Email, email.ReplyTo.Name);
-
-            if (email.Attachments != null)
+            foreach (var to in email.Tos)
             {
-                foreach (var attachment in email.Attachments)
-                {
-                    var fileStream = await storageDataAccess.ReadToStreamAsync(attachment, cancellationToken);
-                    await sendGridMessage.AddAttachmentAsync(attachment.PublicFileName ?? attachment.FileName, fileStream, null, null, null, cancellationToken);
-                }
+                sendGridMessage.AddTo(to.Email, to.Name);
+            }
+
+            foreach (var cc in email.Ccs)
+            {
+                sendGridMessage.AddCc(cc.Email, cc.Name);
+            }
+
+            foreach (var bcc in email.Bccs)
+            {
+                sendGridMessage.AddBcc(bcc.Email, bcc.Name);
+            }
+
+            if (!string.IsNullOrWhiteSpace(email.ReplyTo.Email))
+            {
+                sendGridMessage.ReplyTo = new SendGrid.Helpers.Mail.EmailAddress(email.ReplyTo.Email, email.ReplyTo.Name);
+            }
+
+            foreach (var attachment in email.Attachments)
+            {
+                var fileStream = await storageDataAccess.ReadToStreamAsync(attachment, cancellationToken);
+                var fileName = attachment.GetNormalizedFileName();
+                await sendGridMessage.AddAttachmentAsync(fileName, fileStream, null, null, null, cancellationToken);
             }
 
             SetImportance(sendGridMessage, email);
