@@ -8,6 +8,7 @@ using Polly;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -38,7 +39,6 @@ namespace Milochau.Emails.DataAccess.Implementations
 
         public async Task SendEmailAsync(Email email, CancellationToken cancellationToken)
         {
-            var emailTracking = CreateTrackingEmail(email);
             var sendGridMessage = await CreateSendGridMessageAsync(email, cancellationToken);
 
             var policy = Policy
@@ -48,21 +48,23 @@ namespace Milochau.Emails.DataAccess.Implementations
                     logger.LogWarning(exception, $"Error with attempt #{count} to send email with SendGrid");
                 });
 
-            await policy.ExecuteAsync((ctx) => SendEmailAsync(sendGridMessage, emailTracking, ctx), cancellationToken);
+            var response = await policy.ExecuteAsync((ctx) => SendEmailAsync(sendGridMessage, ctx), cancellationToken);
+
+            // Track emails when succeeded
+            var emailTracking = CreateTrackingEmail(email, response.StatusCode);
+            await cosmosClient.CreateItemAsync(DatabaseName, CosmosClientConstants.TrackingContainerName, emailTracking, emailTracking.Id, logger, cancellationToken);
         }
 
-        public async Task SendEmailAsync(SendGridMessage sendGridMessage, Entities.EmailTracking emailTracking, CancellationToken cancellationToken)
+        public async Task<Response> SendEmailAsync(SendGridMessage sendGridMessage, CancellationToken cancellationToken)
         {
             var response = await sendGridClient.SendEmailAsync(sendGridMessage, cancellationToken);
-
-            emailTracking.Id = Guid.NewGuid().ToString("N");
-            emailTracking.StatusCode = response.StatusCode;
-            await cosmosClient.CreateItemAsync(DatabaseName, CosmosClientConstants.TrackingContainerName, emailTracking, emailTracking.Id, logger, cancellationToken);
 
             if (!response.IsSuccessStatusCode)
             {
                 throw new SendGridException();
             }
+
+            return response;
         }
 
         public async Task<SendGridMessage> CreateSendGridMessageAsync(Email email, CancellationToken cancellationToken)
@@ -139,15 +141,17 @@ namespace Milochau.Emails.DataAccess.Implementations
             }
         }
 
-        private static Entities.EmailTracking CreateTrackingEmail(Email email)
+        private static Entities.EmailTracking CreateTrackingEmail(Email email, HttpStatusCode statusCode)
         {
             return new Entities.EmailTracking
             {
+                Id = Guid.NewGuid().ToString("N"),
                 Tos = email.Tos,
                 Ccs = email.Ccs,
                 Bccs = email.Bccs,
                 Subject = email.Subject,
-                TemplateId = email.TemplateId
+                TemplateId = email.TemplateId,
+                StatusCode = statusCode
             };
         }
     }
