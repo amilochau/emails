@@ -1,12 +1,12 @@
-﻿using Milochau.Emails.Helpers;
-using Milochau.Emails.Sdk.Models;
+﻿using Milochau.Emails.Sdk.Models;
+using Milochau.Finance.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Net;
 
 namespace Milochau.Emails.DataAccess.Entities
 {
-    public class EmailTracking : IEntity
+    public class EmailTracking : IEntity<string>
     {
         public string Id { get; set; } = null!;
 

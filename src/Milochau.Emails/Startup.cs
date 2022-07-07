@@ -13,9 +13,8 @@ using Microsoft.Extensions.Logging;
 using Azure.Identity;
 using Azure.Storage.Blobs;
 using System;
-using Microsoft.Azure.Cosmos;
 using Milochau.Core.Abstractions;
-using Azure.Core;
+using Milochau.Core.Cosmos;
 using Milochau.Emails.DataAccess.Implementations;
 using Milochau.Emails.Services.Implementations;
 
@@ -59,6 +58,8 @@ namespace Milochau.Emails
 
         private void RegisterDataAccess(IServiceCollection services)
         {
+            services.AddCosmosDb(settings => Configuration.GetSection("Database").Bind(settings));
+
             services.AddSingleton<IEmailsDataAccess, EmailsSendGridClient>();
 
             services.AddSingleton<IStorageDataAccess>(serviceProvider =>
@@ -80,34 +81,6 @@ namespace Milochau.Emails
             });
 
             services.AddSingleton(HtmlEncoder.Default);
-
-            services.AddSingleton(serviceProvider =>
-            {
-                var applicationHostEnvironment = serviceProvider.GetRequiredService<IApplicationHostEnvironment>();
-                var databaseOptions = serviceProvider.GetRequiredService<IOptions<DatabaseOptions>>();
-                var credential = serviceProvider.GetRequiredService<TokenCredential>();
-
-                var cosmosClientOptions = new CosmosClientOptions
-                {
-                    ApplicationName = applicationHostEnvironment.ApplicationName,
-                    EnableContentResponseOnWrite = false,
-                    SerializerOptions = new CosmosSerializationOptions
-                    {
-                        IgnoreNullValues = true,
-                        Indented = false,
-                        PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase
-                    }
-                };
-
-                if (!string.IsNullOrEmpty(databaseOptions.Value.ConnectionString))
-                {
-                    return new CosmosClient(databaseOptions.Value.ConnectionString, cosmosClientOptions);
-                }
-                else
-                {
-                    return new CosmosClient(databaseOptions.Value.AccountEndpoint, credential, cosmosClientOptions);
-                }
-            });
         }
     }
 }

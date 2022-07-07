@@ -1,6 +1,7 @@
 ﻿using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Milochau.Core.Cosmos.Helpers;
 using Milochau.Emails.DataAccess.Helpers;
 using Milochau.Emails.Options;
 using Milochau.Emails.Sdk.Models;
