@@ -39,12 +39,6 @@ namespace Milochau.Emails
                     options.StorageAccountUri ??= HostOptions.Application.GetInfrastructureConvention(InfrastructureConventionType.StorageAccountUri, "1");
                 });
             services.Configure<SendGridOptions>(options => Configuration.GetSection("SendGrid").Bind(options));
-            services.Configure<DatabaseOptions>(options => Configuration.GetSection("Database").Bind(options))
-                .PostConfigure<DatabaseOptions>(options =>
-                {
-                    options.DatabaseName ??= HostOptions.Application.GetInfrastructureConvention(InfrastructureConventionType.CosmosDbDatabaseName);
-                    options.AccountEndpoint ??= HostOptions.Application.GetInfrastructureConvention(InfrastructureConventionType.CosmosDbAccountEndpoint);
-                });
         }
 
         private void RegisterServices(IServiceCollection services)
@@ -58,7 +52,7 @@ namespace Milochau.Emails
 
         private void RegisterDataAccess(IServiceCollection services)
         {
-            services.AddCosmosDb(settings => Configuration.GetSection("Database").Bind(settings));
+            services.AddCosmosDb();
 
             services.AddSingleton<IEmailsDataAccess, EmailsSendGridClient>();
 

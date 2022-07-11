@@ -2,8 +2,8 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Milochau.Core.Cosmos.Helpers;
+using Milochau.Core.Cosmos.Models;
 using Milochau.Emails.DataAccess.Helpers;
-using Milochau.Emails.Options;
 using Milochau.Emails.Sdk.Models;
 using Polly;
 using SendGrid;
@@ -20,7 +20,7 @@ namespace Milochau.Emails.DataAccess.Implementations
         private readonly ISendGridClient sendGridClient;
         private readonly IStorageDataAccess storageDataAccess;
         private readonly CosmosClient cosmosClient;
-        private readonly IOptions<DatabaseOptions> databaseOptions;
+        private readonly IOptions<CosmosDbSettings> databaseOptions;
         private readonly ILogger<EmailsSendGridClient> logger;
 
         public string DatabaseName => databaseOptions.Value.DatabaseName;
@@ -28,7 +28,7 @@ namespace Milochau.Emails.DataAccess.Implementations
         public EmailsSendGridClient(ISendGridClient sendGridClient,
             IStorageDataAccess storageDataAccess,
             CosmosClient cosmosClient,
-            IOptions<DatabaseOptions> databaseOptions,
+            IOptions<CosmosDbSettings> databaseOptions,
             ILogger<EmailsSendGridClient> logger)
         {
             this.sendGridClient = sendGridClient;

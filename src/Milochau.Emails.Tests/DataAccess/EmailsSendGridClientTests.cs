@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using Milochau.Emails.DataAccess.Implementations;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Options;
-using Milochau.Emails.Options;
+using Milochau.Core.Cosmos.Models;
 
 namespace Milochau.Emails.Tests.DataAccess
 {
@@ -22,7 +22,7 @@ namespace Milochau.Emails.Tests.DataAccess
         private Mock<ISendGridClient> sendGridClient = null!;
         private Mock<IStorageDataAccess> storageDataAccess = null!;
         private Mock<CosmosClient> cosmosClient = null!;
-        private Mock<IOptions<DatabaseOptions>> databaseOptions = null!;
+        private Mock<IOptions<CosmosDbSettings>> databaseOptions = null!;
         private Mock<ILogger<EmailsSendGridClient>> logger = null!;
 
         private EmailsSendGridClient emailsSendGridClient = null!;
@@ -36,7 +36,7 @@ namespace Milochau.Emails.Tests.DataAccess
 
             storageDataAccess = new Mock<IStorageDataAccess>();
             cosmosClient = new Mock<CosmosClient>();
-            databaseOptions = new Mock<IOptions<DatabaseOptions>>();
+            databaseOptions = new Mock<IOptions<CosmosDbSettings>>();
             logger = new Mock<ILogger<EmailsSendGridClient>>();
 
             var container = new Mock<Container>();
@@ -44,7 +44,7 @@ namespace Milochau.Emails.Tests.DataAccess
             response.SetupGet(x => x.Diagnostics).Returns(new Mock<CosmosDiagnostics>().Object);
             container.Setup(x => x.CreateItemAsync(It.IsAny<Emails.DataAccess.Entities.EmailTracking>(), It.IsAny<PartitionKey>(), It.IsAny<ItemRequestOptions>(), default)).ReturnsAsync(response.Object);
             cosmosClient.Setup(x => x.GetContainer(It.IsAny<string>(), It.IsAny<string>())).Returns(container.Object);
-            databaseOptions.SetupGet(x => x.Value).Returns(new DatabaseOptions());
+            databaseOptions.SetupGet(x => x.Value).Returns(new CosmosDbSettings());
 
             emailsSendGridClient = new EmailsSendGridClient(
                 sendGridClient.Object,
