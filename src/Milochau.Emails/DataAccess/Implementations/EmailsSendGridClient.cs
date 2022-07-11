@@ -9,7 +9,6 @@ using Polly;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -49,14 +48,14 @@ namespace Milochau.Emails.DataAccess.Implementations
                     logger.LogWarning(exception, $"Error with attempt #{count} to send email with SendGrid");
                 });
 
-            var response = await policy.ExecuteAsync((ctx) => SendEmailAsync(sendGridMessage, ctx), cancellationToken);
+            await policy.ExecuteAsync((ctx) => SendEmailAsync(sendGridMessage, ctx), cancellationToken);
 
             // Track emails when succeeded
-            var emailTracking = CreateTrackingEmail(email, response.StatusCode);
+            var emailTracking = CreateTrackingEmail(email);
             await cosmosClient.CreateItemAsync(DatabaseName, CosmosClientConstants.TrackingContainerName, emailTracking, emailTracking.Id, logger, cancellationToken);
         }
 
-        public async Task<Response> SendEmailAsync(SendGridMessage sendGridMessage, CancellationToken cancellationToken)
+        public async Task SendEmailAsync(SendGridMessage sendGridMessage, CancellationToken cancellationToken)
         {
             var response = await sendGridClient.SendEmailAsync(sendGridMessage, cancellationToken);
 
@@ -64,8 +63,6 @@ namespace Milochau.Emails.DataAccess.Implementations
             {
                 throw new SendGridException();
             }
-
-            return response;
         }
 
         public async Task<SendGridMessage> CreateSendGridMessageAsync(Email email, CancellationToken cancellationToken)
@@ -142,7 +139,7 @@ namespace Milochau.Emails.DataAccess.Implementations
             }
         }
 
-        private static Entities.EmailTracking CreateTrackingEmail(Email email, HttpStatusCode statusCode)
+        private static Entities.EmailTracking CreateTrackingEmail(Email email)
         {
             return new Entities.EmailTracking
             {
@@ -151,8 +148,7 @@ namespace Milochau.Emails.DataAccess.Implementations
                 Ccs = email.Ccs,
                 Bccs = email.Bccs,
                 Subject = email.Subject,
-                TemplateId = email.TemplateId,
-                StatusCode = statusCode
+                TemplateId = email.TemplateId
             };
         }
     }
